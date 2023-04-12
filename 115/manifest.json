@@ -8,16 +8,19 @@
         "128": "/img/icon128.png"
     },
     "permissions": [
-        "tabs"
+        "activeTab","tabs"
     ],
+    "background": {
+        "service_worker": "scripts/background.js"
+    },
     "content_scripts": [
-    {
-        "js": [
-            "scripts/content.js"
-        ],
-        "matches": [
-            "https://www.youtube.com/watch?v=*"
-        ]
-    }
-  ]
+        {
+            "js": [
+                "scripts/content.js"
+            ],
+            "matches": [
+                "https://www.youtube.com/watch?v=*"
+            ]
+        }
+    ]
 }
