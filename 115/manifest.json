@@ -7,6 +7,9 @@
         
         "128": "/img/icon128.png"
     },
+    "permissions": [
+        "tabs"
+    ],
     "content_scripts": [
     {
         "js": [
