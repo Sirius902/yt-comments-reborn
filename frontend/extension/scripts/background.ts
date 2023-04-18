@@ -10,5 +10,5 @@ chrome.tabs.onActivated.addListener(function () {
     console.log("TAB UPDATED")
     getTab().then(url => {
         console.log(url);
-    })
-})
+    });
+});

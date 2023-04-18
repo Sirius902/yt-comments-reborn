@@ -4,7 +4,6 @@
     "version": "1.0",
     "description": "Be able to leave comments on YouTube videos that have a restricted comments section.",
     "icons":{
-        
         "128": "/img/icon128.png"
     },
     "permissions": [
@@ -14,12 +13,12 @@
         "https://www.youtube.com/watch?v=*"
     ],
     "background": {
-        "service_worker": "scripts/background.js"
+        "service_worker": "build/background.js"
     },
     "content_scripts": [
         {
             "js": [
-                "scripts/content.js"
+                "build/content.js"
             ],
             "matches": [
                 "https://www.youtube.com/watch?v=*"
