@@ -2,7 +2,11 @@
   "name": "yt-comments-reborn",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "install-backend": "cd backend && npm install",
+    "install-frontend": "cd frontend && npm install",
+    "postinstall": "(npm run install-backend) && (npm run install-frontend)"
+  },
   "keywords": [],
   "author": "",
   "license": "UNLICENSED"
