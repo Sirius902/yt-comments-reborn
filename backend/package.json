@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rollup --config rollup.config.js",
     "watch": "rollup --config rollup.config.js --watch",
-    "start": "nodemon --watch src --watch api --exec \"npm run build && node build/main.js\""
+    "start": "nodemon -e ts,yaml --watch src --watch api --exec \"npm run build && node build/main.js\""
   },
   "keywords": [],
   "author": "",
