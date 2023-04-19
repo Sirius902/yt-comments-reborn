@@ -1,25 +1,23 @@
-/* Create a schema in Docker, drops all tables contained inside schema with "CASCADE" */
 DROP SCHEMA IF EXISTS backend_reborn CASCADE;
-/* Recreate the schema */
 CREATE SCHEMA backend_reborn;
 
 
 CREATE TABLE Users (
-    INT user_id,
-    VARCHAR(30) name,
+    user_id INT,
+    name VARCHAR(30),
     PRIMARY KEY (user_id)
 );
 
 CREATE TABLE Comments (
-    INT user_id,
-    VARCHAR(1024) comment,
-    date postdate,
+    user_id INT,
+    comment VARCHAR(1024),
+    postdate date,
     FOREIGN KEY (user_id) REFERENCES Users (user_id),
     FOREIGN KEY (comment) REFERENCES Comments(comment)
 );
 CREATE TABLE Video (
-    VARCHAR(100) vid_url,
-    VARCHAR(1024) comment,
+    vid_url VARCHAR(100),
+    comment VARCHAR(1024),
     PRIMARY KEY (vid_url),
     FOREIGN KEY (comment) REFERENCES Comments(comment)
 );
