@@ -12,6 +12,7 @@ CREATE TABLE Comments (
     user_id INT,
     comment VARCHAR(1024),
     postdate date,
+    PRIMARY KEY (comment),
     FOREIGN KEY (user_id) REFERENCES Users (user_id),
     FOREIGN KEY (comment) REFERENCES Comments(comment)
 );
