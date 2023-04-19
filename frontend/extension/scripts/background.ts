@@ -1,14 +1,11 @@
 console.log("testing");
-
-async function getTab() {
-    let queryOptions = { active: true, currentWindow: true };
-    let tabs = await chrome.tabs.query(queryOptions);
-    return tabs[0].url;
-}
-
-chrome.tabs.onActivated.addListener(function () {
-    console.log("TAB UPDATED")
-    getTab().then(url => {
-        console.log(url);
-    });
+let queryParameters: string = "";
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.status == "complete") {
+        if (tab.url && tab.url.includes("youtube.com/watch")) {
+            queryParameters = tab.url.split("?v=")[1];
+            console.log(queryParameters);
+        }
+        chrome.tabs.sendMessage(tabId, { id: tabId, parameters: queryParameters });
+    }
 });
