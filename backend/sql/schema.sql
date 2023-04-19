@@ -1,10 +1,10 @@
 DROP SCHEMA IF EXISTS backend_reborn CASCADE;
 CREATE SCHEMA backend_reborn;
 
-
 CREATE TABLE Users (
     user_id INT,
     name VARCHAR(30),
+    UNIQUE (name),
     PRIMARY KEY (user_id)
 );
 
