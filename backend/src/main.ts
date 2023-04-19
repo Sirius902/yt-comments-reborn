@@ -1,2 +1,10 @@
-const programName: string = 'backend';
-console.log(`Hello world from the ${programName}!`);
+import { config } from 'dotenv';
+config();
+
+import app from './app';
+
+const port = 3010;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+    console.log(`API Testing UI: http://localhost:${port}/v0/api-docs/`);
+});
