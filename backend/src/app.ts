@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { middleware } from 'express-openapi-validator';
 import { fileURLToPath } from 'node:url';
+import * as db from './db';
 
 const app = express();
 app.use(cors());
@@ -27,8 +28,19 @@ app.use(
     }),
 );
 
-app.get('/v0/dummy', async (req, res) => {
-    res.status(200).json('hey how\'re you doing');
+app.get('/v0/user', async (req, res) => {
+    const users = await db.getUsers();
+    res.status(200).json(users);
+});
+
+type UserInfo = {
+    name: string;
+};
+
+app.post('/v0/user', async (req, res) => {
+    const {name} = req.body as UserInfo;
+    const user = await db.createUser(name);
+    res.status(200).json(user);
 });
 
 app.use([(err, req, res, next) => {

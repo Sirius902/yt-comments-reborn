@@ -2,14 +2,13 @@ DROP SCHEMA IF EXISTS backend_reborn CASCADE;
 CREATE SCHEMA backend_reborn;
 
 CREATE TABLE Users (
-    user_id INT,
+    user_id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(30),
-    UNIQUE (name),
-    PRIMARY KEY (user_id)
+    UNIQUE (name)
 );
 
 CREATE TABLE Comments (
-    user_id INT,
+    user_id UUID,
     comment VARCHAR(1024),
     postdate date,
     PRIMARY KEY (comment),

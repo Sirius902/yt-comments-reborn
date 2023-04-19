@@ -9,18 +9,42 @@ servers:
   - url: http://localhost:3010/v0
 
 paths:
-  /dummy:
+  /user:
     get:
-      description: Dummy Endpoint
+      description: User Endpoint
       responses:
         200:
-          description: Succesful
+          description: User Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DummyResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
         default:
-          description: unexpected error
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: User Endpoint
+      requestBody:
+        description: Request Body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInfo'
+      responses:
+        200:
+          description: User Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected Error
           content:
             application/json:
               schema:
@@ -40,5 +64,24 @@ components:
         - message
       additionalProperties: false
 
-    DummyResponse:
-      type: string
+    UserInfo:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+      additionalProperties: false
+
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      required:
+        - user_id
+        - name
+      additionalProperties: false

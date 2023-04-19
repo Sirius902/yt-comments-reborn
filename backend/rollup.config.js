@@ -4,16 +4,11 @@ import typescript from '@rollup/plugin-typescript';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import json from '@rollup/plugin-json';
 import fs from 'node:fs';
+import dotenv from 'dotenv';
+import replace from '@rollup/plugin-replace';
 
-const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-
-const plugins = [
-    json(),
-    peerDepsExternal(),
-    commonjs(),
-    nodeResolve(),
-    typescript({ tsconfig: './tsconfig.json' }),
-];
+const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+const env = dotenv.parse(fs.readFileSync('./.env', 'utf-8'));
 
 export default {
     input: './src/main.ts',
@@ -21,8 +16,20 @@ export default {
         file: './build/main.js',
         format: 'es',
         name: 'main',
-        sourcemap: true
+        sourcemap: true,
     },
-    plugins,
+    plugins: [
+        json(),
+        replace({
+            values: Object.fromEntries(
+                Object.keys(env).map((k) => [`process.env.${k}`, `'${env[k]}'`])
+            ),
+            preventAssignment: true,
+        }),
+        peerDepsExternal(),
+        commonjs(),
+        nodeResolve(),
+        typescript({ tsconfig: './tsconfig.json' }),
+    ],
     external: Object.keys(packageJson.dependencies),
 };
