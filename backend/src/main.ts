@@ -1,5 +1,5 @@
-import {} from 'dotenv/config';
-import app from './app.js';
+import 'dotenv/config';
+import app from './app';
 
 const port = 3010;
 app.listen(port, () => {

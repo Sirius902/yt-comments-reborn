@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {middleware} from 'express-openapi-validator';
 import {fileURLToPath} from 'node:url';
-import * as db from './db.js';
+import * as db from './db';
 
 const app = express();
 app.use(cors());
