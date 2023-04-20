@@ -6,7 +6,7 @@
     "build": "rollup --config rollup.config.js",
     "watch": "rollup --config rollup.config.js --watch",
     "start": "nodemon -e ts,yaml --watch src --watch api --exec \"npm run build && node build/main.js\"",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts,.js"
   },
   "keywords": [],
   "author": "",

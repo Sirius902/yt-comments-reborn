@@ -1,4 +1,4 @@
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+import {nodeResolve} from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
@@ -29,7 +29,7 @@ export default {
         peerDepsExternal(),
         commonjs(),
         nodeResolve(),
-        typescript({ tsconfig: './tsconfig.json' }),
+        typescript({tsconfig: './tsconfig.json'}),
     ],
     external: Object.keys(packageJson.dependencies),
 };
