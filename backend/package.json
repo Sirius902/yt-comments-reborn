@@ -5,7 +5,8 @@
   "scripts": {
     "build": "rollup --config rollup.config.js",
     "watch": "rollup --config rollup.config.js --watch",
-    "start": "nodemon -e ts,yaml --watch src --watch api --exec \"npm run build && node build/main.js\""
+    "start": "nodemon -e ts,yaml --watch src --watch api --exec \"npm run build && node build/main.js\"",
+    "lint": "eslint . --ext .ts"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +28,10 @@
     "@types/jsonwebtoken": "^9.0.1",
     "@types/pg": "^8.6.6",
     "@types/swagger-ui-express": "^4.1.3",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
     "dotenv": "^16.0.3",
+    "eslint": "^8.38.0",
+    "eslint-config-google": "^0.14.0",
     "nodemon": "^2.0.22",
     "rollup": "^3.20.4",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -45,5 +49,26 @@
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.10.0",
     "swagger-ui-express": "^4.6.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "google",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "ignorePatterns": [
+      "node_modules",
+      "build"
+    ],
+    "rules": {
+      "indent": ["error", 4],
+      "require-jsdoc": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", {"argsIgnorePattern": "^_"}]
+    }
   }
 }
