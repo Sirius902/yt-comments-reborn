@@ -3,21 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "rollup --config rollup.config.js",
-    "watch": "rollup --config rollup.config.js --watch",
+    "build": "tsc",
+    "watch": "tsc --watch",
     "start": "nodemon -e ts,yaml --watch src --watch api --exec \"npm run build && node build/main.js\"",
-    "lint": "eslint . --ext .ts,.js"
+    "lint": "eslint . --ext .ts"
   },
   "keywords": [],
   "author": "",
   "license": "UNLICENSED",
   "type": "module",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.1.0",
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.2",
-    "@rollup/plugin-replace": "^5.0.2",
-    "@rollup/plugin-typescript": "^11.1.0",
     "@types/bcrypt": "^5.0.0",
     "@types/body-parser": "^1.19.2",
     "@types/cors": "^2.8.13",
@@ -33,9 +28,6 @@
     "eslint": "^8.38.0",
     "eslint-config-google": "^0.14.0",
     "nodemon": "^2.0.22",
-    "rollup": "^3.20.4",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "tslib": "^2.5.0",
     "typescript": "^5.0.4"
   },
   "dependencies": {
@@ -66,9 +58,17 @@
       "build"
     ],
     "rules": {
-      "indent": ["error", 4],
+      "indent": [
+        "error",
+        4
+      ],
       "require-jsdoc": "off",
-      "@typescript-eslint/no-unused-vars": ["warn", {"argsIgnorePattern": "^_"}]
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          "argsIgnorePattern": "^_"
+        }
+      ]
     }
   }
 }

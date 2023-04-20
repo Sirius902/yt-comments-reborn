@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {middleware} from 'express-openapi-validator';
 import {fileURLToPath} from 'node:url';
-import * as db from './db';
+import * as db from './db.js';
 
 const app = express();
 app.use(cors());
@@ -28,7 +28,7 @@ app.use(
     }),
 );
 
-app.get('/v0/user', async (req, res) => {
+app.get('/v0/user', async (_req, res) => {
     const users = await db.getUsers();
     res.status(200).json(users);
 });
