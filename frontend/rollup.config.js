@@ -5,9 +5,9 @@ import external from 'rollup-plugin-peer-deps-external';
 
 const plugins = [
     external(),
-    resolve(),
+    resolve({browser: true}),
     commonjs(),
-    typescript({ tsconfig: './tsconfig.json' }),
+    typescript({tsconfig: './tsconfig.json'}),
 ];
 
 export default [
@@ -17,7 +17,7 @@ export default [
             file: './extension/build/background.js',
             format: 'iife',
             name: 'background',
-            sourcemap: true
+            sourcemap: true,
         },
         plugins,
     },
@@ -27,8 +27,8 @@ export default [
             file: './extension/build/content.js',
             format: 'iife',
             name: 'content',
-            sourcemap: true
+            sourcemap: true,
         },
-        plugins
-    }
+        plugins,
+    },
 ];
