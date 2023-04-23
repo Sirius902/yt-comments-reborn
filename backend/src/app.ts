@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type Response } from 'express';
 import cors from 'cors';
 import yaml from 'js-yaml';
 import swaggerUi from 'swagger-ui-express';
@@ -7,6 +7,7 @@ import path from 'node:path';
 import {middleware} from 'express-openapi-validator';
 import {fileURLToPath} from 'node:url';
 import * as db from './db';
+import type { UserInfo, CommentInfo } from './types';
 
 const app = express();
 app.use(cors());
@@ -28,19 +29,47 @@ app.use(
     }),
 );
 
+// TODO: This is kind of cringe.
+function errorResponse<R extends Response, E>(res: R, e: E) {
+    if (e instanceof Error) {
+        res.status(500).json(e.message);
+    } else {
+        res.status(500).json('Unknown error type');
+    }
+}
+
 app.get('/v0/user', async (_req, res) => {
     const users = await db.getUsers();
     res.status(200).json(users);
 });
 
-type UserInfo = {
-    name: string;
-};
-
 app.post('/v0/user', async (req, res) => {
-    const {name} = req.body as UserInfo;
-    const user = await db.createUser(name);
-    res.status(200).json(user);
+    try {
+        // TODO: Fix the types to get rid of the cast.
+        const user = await db.createUser(req.body as UserInfo);
+        res.status(200).json(user);
+    } catch(e) {
+        errorResponse(res, e);
+    }
+});
+
+app.get('/v0/comment', async (req, res) => {
+    try {
+        const comments = await db.getComments();
+        res.status(200).json(comments);
+    } catch(e) {
+        errorResponse(res, e);
+    }
+});
+
+app.post('/v0/comment', async (req, res) => {
+    try {
+        const comment = await db.createComment(req.body as CommentInfo);
+        res.status(200).json(comment);
+        // TODO: Insert into video table as well.
+    } catch(e) {
+        errorResponse(res, e);
+    }
 });
 
 app.use([(err, _req, res, _next) => {

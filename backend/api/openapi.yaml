@@ -50,6 +50,47 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /comment:
+    get:
+      description: Comment Endpoint
+      responses:
+        200:
+          description: Comment Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: Comment Endpoint
+      requestBody:
+        description: Request Body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentInfo'
+      responses:
+        200:
+          description: Comment Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   schemas:
     Error:
@@ -69,6 +110,8 @@ components:
       properties:
         name:
           type: string
+          minLength: 1
+          maxLength: 64
       required:
         - name
       additionalProperties: false
@@ -81,7 +124,40 @@ components:
           format: uuid
         name:
           type: string
+          minLength: 1
+          maxLength: 64
       required:
         - user_id
         - name
       additionalProperties: false
+
+    CommentInfo:
+      type: object
+      properties:
+        # Change to automatically determine once auth is added.
+        user_id:
+          type: string
+          format: uuid
+        comment:
+          type: string
+          minLength: 1
+          maxLength: 8192
+        vid_id:
+          type: string
+          minLength: 11
+          maxLength: 11
+
+    Comment:
+      type: object
+      properties:
+        comment_id:
+          type: string
+          format: uuid
+        # Change to automatically determine once auth is added.
+        user_id:
+          type: string
+          format: uuid
+        comment:
+          type: string
+          minLength: 1
+          maxLength: 8192
