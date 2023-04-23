@@ -1,7 +1,7 @@
 import pg from 'pg';
 const {Pool} = pg;
 
-import type { CommentInfo, Comment, User, UserInfo } from './types';
+import type {CommentInfo, Comment, User, UserInfo} from './types';
 
 const pool = new Pool({
     host: 'localhost',
@@ -36,11 +36,18 @@ export async function getUsers(): Promise<User[]> {
 }
 
 export async function createComment(info: CommentInfo): Promise<Comment> {
-    const insert = 'INSERT INTO Comments(user_id, comment, postdate) VALUES ($1, $2, $3) RETURNING *';
+    const insert = (
+        `INSERT INTO Comments(user_id, comment, postdate)
+        VALUES ($1, $2, $3) RETURNING *`
+    );
 
     const {rows} = await pool.query({
         text: insert,
-        values: [info.user_id, info.comment, serializeDate(new Date())],
+        values: [
+            info.user_id,
+            info.comment,
+            serializeDate(new Date()),
+        ],
     });
     return rows[0];
 }

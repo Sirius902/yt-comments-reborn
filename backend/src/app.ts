@@ -1,4 +1,4 @@
-import express, { type Response } from 'express';
+import express, {type Response} from 'express';
 import cors from 'cors';
 import yaml from 'js-yaml';
 import swaggerUi from 'swagger-ui-express';
@@ -7,7 +7,7 @@ import path from 'node:path';
 import {middleware} from 'express-openapi-validator';
 import {fileURLToPath} from 'node:url';
 import * as db from './db';
-import type { UserInfo, CommentInfo } from './types';
+import type {UserInfo, CommentInfo} from './types';
 
 const app = express();
 app.use(cors());
@@ -48,7 +48,7 @@ app.post('/v0/user', async (req, res) => {
         // TODO: Fix the types to get rid of the cast.
         const user = await db.createUser(req.body as UserInfo);
         res.status(200).json(user);
-    } catch(e) {
+    } catch (e) {
         errorResponse(res, e);
     }
 });
@@ -57,7 +57,7 @@ app.get('/v0/comment', async (req, res) => {
     try {
         const comments = await db.getComments();
         res.status(200).json(comments);
-    } catch(e) {
+    } catch (e) {
         errorResponse(res, e);
     }
 });
@@ -67,7 +67,7 @@ app.post('/v0/comment', async (req, res) => {
         const comment = await db.createComment(req.body as CommentInfo);
         res.status(200).json(comment);
         // TODO: Insert into video table as well.
-    } catch(e) {
+    } catch (e) {
         errorResponse(res, e);
     }
 });
