@@ -1,15 +1,4 @@
-chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
-    const {id, parameters} = message;
-    console.log(id + ' | ' + parameters);
-});
-
-addEventListener('scroll', (event) => {
-    console.log(document
-        .getElementById('comments')
-        ?.getElementsByClassName('style-scope yt-formatted-string')[0]);
-});
-
-function waitForElm(selector: string): Promise<Element> {
+const waitForElem = (selector: string): Promise<Element> => {
     return new Promise((resolve) => {
         const element = document.querySelector(selector);
         if (element !== null) {
@@ -25,8 +14,28 @@ function waitForElm(selector: string): Promise<Element> {
         });
 
         observer.observe(document.body, {
+            attributes: true,
             childList: true,
-            subtree: true,
+            subtree: true
         });
     });
 }
+
+chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
+    // const {id, parameters} = message;
+    // console.log(id + ' | ' + parameters);
+    const commentsDiv: Promise<Element> = waitForElem("#comments");
+    if (commentsDiv !== null) {
+        console.log(
+            document.getElementById("comments")?.
+            getElementsByClassName("style-scope yt-formatted-string")[0]
+        );
+    }
+    
+});
+
+// addEventListener('scroll', (event) => {
+//     console.log(document
+//         .getElementById('comments')
+//         ?.getElementsByClassName('style-scope yt-formatted-string')[0]);
+// });
