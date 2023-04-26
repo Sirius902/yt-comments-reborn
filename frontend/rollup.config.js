@@ -8,7 +8,12 @@ const plugins = [
     external(),
     resolve({browser: true}),
     commonjs(),
-    replace({values: {'process.env.NODE_ENV': JSON.stringify('production')}, preventAssignment: true}),
+    replace({
+        values: {
+            'process.env.NODE_ENV': JSON.stringify('production'),
+        },
+        preventAssignment: true,
+    }),
     typescript({tsconfig: './tsconfig.json'}),
 ];
 
@@ -32,5 +37,5 @@ export default [
             sourcemap: true,
         },
         plugins,
-    }
+    },
 ];

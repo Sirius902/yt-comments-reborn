@@ -7,6 +7,6 @@ export default function App() {
                 <p>Hello, World!</p>
                 <p>I'm a Chrome Extension Content Script!</p>
             </header>
-        </div> 
-    )
+        </div>
+    );
 }

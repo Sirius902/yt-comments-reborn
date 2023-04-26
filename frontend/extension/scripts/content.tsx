@@ -1,8 +1,9 @@
-import React from "react";
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import App from './app';
-const waitForElem = (parent: Element, selector: string): Promise<Element> => {
+
+function waitForElem(parent: Element, selector: string): Promise<Element> {
     return new Promise((resolve) => {
         const element = parent.querySelector(selector);
         if (element !== null) {
@@ -23,7 +24,19 @@ const waitForElem = (parent: Element, selector: string): Promise<Element> => {
             subtree: true,
         });
     });
-};
+}
+
+function mountApp(comments: Element) {
+    const app = document.createElement('div');
+    app.id = 'react-root';
+    comments.prepend(app);
+    const root = createRoot(app);
+    root.render(
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    );
+}
 
 chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
     const {id, parameters} = message;
@@ -32,22 +45,18 @@ chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
         .then((message) => {
             message.remove();
         });
+
     waitForElem(document.body, '#comments')
         .then((comments) => {
-            const app = document.createElement('div');
-            app.id = 'react-root';
-            if (comments) {
-                comments.prepend(app);
-            }
-            const root = createRoot(app);
-            root.render(
-                <App />
-            )
+            mountApp(comments);
+
+            const observer = new MutationObserver(() => {
+                const reactRoot = document.getElementById('react-root');
+                if (reactRoot === null) {
+                    mountApp(comments);
+                }
+            });
+
+            observer.observe(comments, {childList: true});
         });
 });
-
-// addEventListener('scroll', (event) => {
-//     console.log(document
-//         .getElementById('comments')
-//         ?.getElementsByClassName('style-scope yt-formatted-string')[0]);
-// });
