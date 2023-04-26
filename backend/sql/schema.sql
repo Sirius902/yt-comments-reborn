@@ -20,5 +20,5 @@ CREATE TABLE Videos (
     vid_id CHAR(11),
     comment_id UUID,
     PRIMARY KEY (vid_id),
-    FOREIGN KEY (comment_id) REFERENCES Comments(comment_id)
+    FOREIGN KEY (comment_id) REFERENCES Comments(comment_id) ON DELETE CASCADE
 );
