@@ -1,0 +1,172 @@
+openapi: '3.0.3'
+
+info:
+  description: yt-comments-reborn Backend
+  version: 0.1.0
+  title: yt-comments-reborn Backend
+
+servers:
+  - url: http://localhost:3010/v0
+
+paths:
+  /user:
+    get:
+      description: User Endpoint
+      responses:
+        200:
+          description: User Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: User Endpoint
+      requestBody:
+        description: Request Body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInfo'
+      responses:
+        200:
+          description: User Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /comment:
+    get:
+      description: Comment Endpoint
+      parameters:
+        - in: query
+          name: vid_id
+          schema:
+            $ref: '#/components/schemas/VideoId'
+          required: true
+      responses:
+        200:
+          description: Comment Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: Comment Endpoint
+      requestBody:
+        description: Request Body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentInfo'
+      responses:
+        200:
+          description: Comment Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+      required:
+        - code
+        - message
+      additionalProperties: false
+
+    UserInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 64
+      required:
+        - name
+      additionalProperties: false
+
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+          maxLength: 64
+      required:
+        - user_id
+        - name
+      additionalProperties: false
+
+    CommentInfo:
+      type: object
+      properties:
+        # Change to automatically determine once auth is added.
+        user_id:
+          type: string
+          format: uuid
+        comment:
+          type: string
+          minLength: 1
+          maxLength: 8192
+        vid_id:
+          $ref: '#/components/schemas/VideoId'
+
+    Comment:
+      type: object
+      properties:
+        comment_id:
+          type: string
+          format: uuid
+        # Change to automatically determine once auth is added.
+        user_id:
+          type: string
+          format: uuid
+        comment:
+          type: string
+          minLength: 1
+          maxLength: 8192
+    
+    VideoId:
+      type: string
+      minLength: 11
+      maxLength: 11
