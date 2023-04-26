@@ -1,3 +1,7 @@
+import React from "react";
+import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
+import App from './app';
 const waitForElem = (parent: Element, selector: string): Promise<Element> => {
     return new Promise((resolve) => {
         const element = parent.querySelector(selector);
@@ -25,7 +29,21 @@ chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
     const {id, parameters} = message;
     console.log(id + ' | ' + parameters);
     waitForElem(document.body, '#message.ytd-message-renderer')
-        .then((message) => console.log(message));
+        .then((message) => {
+            message.remove();
+        });
+    waitForElem(document.body, '#comments')
+        .then((comments) => {
+            const app = document.createElement('div');
+            app.id = 'react-root';
+            if (comments) {
+                comments.prepend(app);
+            }
+            const root = createRoot(app);
+            root.render(
+                <App />
+            )
+        });
 });
 
 // addEventListener('scroll', (event) => {
