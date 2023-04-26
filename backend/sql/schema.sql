@@ -11,7 +11,7 @@ CREATE TABLE Comments (
     user_id UUID,
     comment VARCHAR(8192),
     postdate timestamp,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Videos (
