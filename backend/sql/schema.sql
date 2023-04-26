@@ -3,22 +3,16 @@ CREATE SCHEMA backend_reborn;
 
 CREATE TABLE Users (
     user_id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(64)
+    name VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE Comments (
     comment_id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID,
-    comment VARCHAR(8192),
-    postdate timestamp,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
-);
-
-CREATE TABLE Videos (
+    comment VARCHAR(8192) NOT NULL,
+    postdate timestamp NOT NULL,
     -- Video IDs are not guaranteed to be 11 characters but in YouTube's current
     -- implementation that is the case. So this is probably fine?
-    vid_id CHAR(11),
-    comment_id UUID,
-    PRIMARY KEY (vid_id),
-    FOREIGN KEY (comment_id) REFERENCES Comments(comment_id) ON DELETE CASCADE
+    vid_id CHAR(11) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );

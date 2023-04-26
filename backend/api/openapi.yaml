@@ -53,6 +53,12 @@ paths:
   /comment:
     get:
       description: Comment Endpoint
+      parameters:
+        - in: query
+          name: vid_id
+          schema:
+            $ref: '#/components/schemas/VideoId'
+          required: true
       responses:
         200:
           description: Comment Response
@@ -143,9 +149,7 @@ components:
           minLength: 1
           maxLength: 8192
         vid_id:
-          type: string
-          minLength: 11
-          maxLength: 11
+          $ref: '#/components/schemas/VideoId'
 
     Comment:
       type: object
@@ -161,3 +165,8 @@ components:
           type: string
           minLength: 1
           maxLength: 8192
+    
+    VideoId:
+      type: string
+      minLength: 11
+      maxLength: 11

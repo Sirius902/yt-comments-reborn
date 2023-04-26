@@ -18,4 +18,5 @@ export type Comment = {
     user_id: string;
     comment: string;
     postdate: string;
+    vid_id: string;
 };
