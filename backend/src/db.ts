@@ -62,3 +62,17 @@ export async function getComments(): Promise<Comment[]> {
     });
     return rows;
 }
+
+export async function addCommentToVideo(
+    vid_id: string,
+    comment_id: string,
+): Promise<void> {
+    const insert = (
+        'INSERT INTO Videos(vid_id, comment_id) VALUES ($1, $2) RETURNING *'
+    );
+
+    await pool.query({
+        text: insert,
+        values: [vid_id, comment_id],
+    });
+}

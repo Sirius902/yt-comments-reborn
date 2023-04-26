@@ -13,6 +13,9 @@ export async function post(
     res: Response<Comment>,
 ) {
     const comment = await db.createComment(req.body);
+    await db.addCommentToVideo(
+        req.body.vid_id,
+        comment.comment_id,
+    );
     res.status(200).json(comment);
-    // TODO: Insert into video table as well.
 }
