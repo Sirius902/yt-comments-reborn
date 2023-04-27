@@ -8,6 +8,9 @@ CREATE TABLE Users (
 
 CREATE TABLE Comments (
     comment_id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
+    -- reply_id: ID of the comment that this comment is a reply to
+    -- NULL implies original comment
+    reply_id UUID, 
     user_id UUID,
     comment VARCHAR(8192) NOT NULL,
     postdate timestamp NOT NULL,
@@ -16,3 +19,5 @@ CREATE TABLE Comments (
     vid_id CHAR(11) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
+
+

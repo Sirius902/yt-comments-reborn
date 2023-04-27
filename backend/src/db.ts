@@ -37,14 +37,15 @@ export async function getUsers(): Promise<User[]> {
 
 export async function createComment(info: CommentInfo): Promise<Comment> {
     const insert = (
-        `INSERT INTO Comments(user_id, comment, postdate, vid_id)
-        VALUES ($1, $2, $3, $4) RETURNING *`
+        `INSERT INTO Comments(user_id, reply_id, comment, postdate, vid_id)
+        VALUES ($1, $2, $3, $4, $5) RETURNING *`
     );
 
     const {rows} = await pool.query({
         text: insert,
         values: [
             info.user_id,
+            info.reply_id,
             info.comment,
             serializeDate(new Date()),
             info.vid_id,
@@ -63,5 +64,17 @@ export async function getComments(vidId: string): Promise<Comment[]> {
         text: select,
         values: [vidId],
     });
+    return rows;
+}
+
+export async function getReplies(commentId: string): Promise<Comment[]>{
+    const select = (
+        `SELECT * FROM Comments WHERE reply_id = $1`
+    );
+    const {rows} = await pool.query({
+        text: select,
+        values: [commentId]
+    })
+    console.log(rows);
     return rows;
 }
