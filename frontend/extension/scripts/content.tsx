@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {createRoot} from 'react-dom/client';
-import App from './app';
+import App from './App';
 
 function waitForElem(parent: Element, selector: string): Promise<Element> {
     return new Promise((resolve) => {
