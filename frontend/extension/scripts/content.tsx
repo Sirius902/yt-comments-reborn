@@ -29,7 +29,7 @@ function waitForElem(parent: Element, selector: string): Promise<Element> {
 function mountApp(comments: Element) {
     const app = document.createElement('div');
     app.id = 'react-root';
-    comments.prepend(app);
+    comments.append(app);
     const root = createRoot(app);
     root.render(
         <React.StrictMode>
@@ -44,19 +44,19 @@ chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
     waitForElem(document.body, '#message.ytd-message-renderer')
         .then((message) => {
             message.remove();
-        });
 
-    waitForElem(document.body, '#comments')
-        .then((comments) => {
-            mountApp(comments);
-
-            const observer = new MutationObserver(() => {
-                const reactRoot = document.getElementById('react-root');
-                if (reactRoot === null) {
+            waitForElem(document.body, '#comments')
+                .then((comments) => {
                     mountApp(comments);
-                }
-            });
 
-            observer.observe(comments, {childList: true});
+                    const observer = new MutationObserver(() => {
+                        const reactRoot = document.getElementById('react-root');
+                        if (reactRoot === null) {
+                            mountApp(comments);
+                        }
+                    });
+
+                    observer.observe(comments, {childList: true});
+                });
         });
 });
