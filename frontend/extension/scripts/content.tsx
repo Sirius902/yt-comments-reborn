@@ -27,15 +27,18 @@ function waitForElem(parent: Element, selector: string): Promise<Element> {
 }
 
 function mountApp(comments: Element) {
-    const app = document.createElement('div');
-    app.id = 'react-root';
-    comments.append(app);
-    const root = createRoot(app);
-    root.render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
-    );
+    const reactRoot = document.getElementById('react-root');
+    if (reactRoot === null) {
+        const app = document.createElement('div');
+        app.id = 'react-root';
+        comments.append(app);
+        const root = createRoot(app);
+        root.render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+        );
+    }
 }
 
 chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
@@ -50,10 +53,7 @@ chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
                     mountApp(comments);
 
                     const observer = new MutationObserver(() => {
-                        const reactRoot = document.getElementById('react-root');
-                        if (reactRoot === null) {
-                            mountApp(comments);
-                        }
+                        mountApp(comments);
                     });
 
                     observer.observe(comments, {childList: true});
