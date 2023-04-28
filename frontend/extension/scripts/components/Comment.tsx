@@ -1,4 +1,5 @@
 import React from 'react';
+import './Comment.css'
 
 export interface Props {
     message: string;
@@ -7,7 +8,13 @@ export interface Props {
 const Comment: React.FC<Props> = ({message}) => {
     return (
         <div className='Comment'>
-            <p>{message}</p>
+            <div className='Card'>
+                <div className='userName'>dummy</div>
+                <div className='msg'>{message}</div>
+            </div>
+            <div>
+                <button id='replyBtn'>Reply</button>
+            </div>
         </div>
     );
 };
