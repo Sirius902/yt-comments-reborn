@@ -25,7 +25,7 @@ function waitForElem(parent: Element, selector: string): Promise<Element> {
     });
 }
 
-function mountApp(comments: Element) {
+function mountApp(comments: Element, videoId: string) {
     const reactRoot = document.getElementById('react-root');
     if (reactRoot === null) {
         const app = document.createElement('div');
@@ -34,7 +34,7 @@ function mountApp(comments: Element) {
         const root = createRoot(app);
         root.render(
             <React.StrictMode>
-                <App />
+                <App videoId={videoId} />
             </React.StrictMode>
         );
     }
@@ -42,17 +42,19 @@ function mountApp(comments: Element) {
 
 chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
     const {id, parameters} = message;
-    console.log(id + ' | ' + parameters);
+    console.log(`parameters = ${parameters}`);
+    const videoId = parameters;
+
     waitForElem(document.body, '#message.ytd-message-renderer')
         .then((message) => {
             message.remove();
 
             waitForElem(document.body, '#comments')
                 .then((comments) => {
-                    mountApp(comments);
+                    mountApp(comments, videoId);
 
                     const observer = new MutationObserver(() => {
-                        mountApp(comments);
+                        mountApp(comments, videoId);
                     });
 
                     observer.observe(comments, {childList: true});

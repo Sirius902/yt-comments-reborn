@@ -1,5 +1,4 @@
 .App {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
     font-size: 10px;
     font-weight: normal;
 }
@@ -50,4 +49,10 @@
     resize: none;
     outline: none;
     transition: .5s
+}
+
+@media (prefers-color-scheme: dark) {
+    .App {
+        color: white;
+    }
 }
