@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "build": "rollup --config rollup.config.js",
-    "watch": "rollup --config rollup.config.js --watch"
+    "watch": "rollup --config rollup.config.js --watch",
+    "lint": "eslint . --ext .ts,.tsx,.js,.css"
   },
   "keywords": [],
   "author": "",
@@ -13,11 +14,16 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.1.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-typescript": "^11.1.0",
     "@types/chrome": "^0.0.231",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "eslint": "^8.38.0",
+    "eslint-config-google": "^0.14.0",
     "rollup": "^3.20.4",
+    "rollup-plugin-import-css": "^3.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
@@ -25,5 +31,34 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "google",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "ignorePatterns": [
+      "node_modules",
+      "extension/build"
+    ],
+    "rules": {
+      "indent": [
+        "error",
+        4
+      ],
+      "require-jsdoc": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          "argsIgnorePattern": "^_"
+        }
+      ]
+    }
   }
 }

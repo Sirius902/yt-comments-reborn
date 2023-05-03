@@ -1,0 +1,24 @@
+.Comment {
+    width: 800px;
+    margin-top: 2rem;
+}
+
+.Comment .Card {
+    width: 100%;
+    height: 60px;
+    display: grid;
+    grid-template-columns: auto;
+    margin: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.Comment .msg {
+    margin: 5px 15px;
+    text-align: left;
+    font-size: 1.4rem
+}
+
+.Comment .userName {
+    font-size: 1.4rem;
+    font-weight: bold;
+}

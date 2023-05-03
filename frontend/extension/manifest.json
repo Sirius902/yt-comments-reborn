@@ -20,6 +20,9 @@
             "js": [
                 "build/content.js"
             ],
+            "css": [
+                "build/content.css"
+            ],
             "matches": [
                 "https://www.youtube.com/watch?v=*"
             ]
