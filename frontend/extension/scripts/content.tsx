@@ -44,7 +44,6 @@ chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
     const {parameters} = message;
     const url = new URL(parameters);
     const videoId = url.searchParams.get('v')!;
-    console.log(`videoId = ${videoId}`);
     waitForElem(document.body, '#message.ytd-message-renderer')
         .then((message) => {
             message.remove();
