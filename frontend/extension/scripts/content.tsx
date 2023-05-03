@@ -41,10 +41,10 @@ function mountApp(comments: Element, videoId: string) {
 }
 
 chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
-    const {id, parameters} = message;
-    console.log(`parameters = ${parameters}`);
-    const videoId = parameters;
-
+    const {parameters} = message;
+    const url = new URL(parameters);
+    const videoId = url.searchParams.get('v')!;
+    console.log(`videoId = ${videoId}`);
     waitForElem(document.body, '#message.ytd-message-renderer')
         .then((message) => {
             message.remove();
