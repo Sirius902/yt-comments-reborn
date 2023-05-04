@@ -81,6 +81,5 @@ export async function getReplies(commentId: string): Promise<Comment[]>{
         text: select,
         values: [commentId]
     })
-    console.log(rows);
     return rows;
 }
