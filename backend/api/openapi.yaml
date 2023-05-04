@@ -169,6 +169,7 @@ components:
           format: uuid
         reply_id:
           type: string
+          nullable: true
           format: uuid
         comment:
           type: string
@@ -181,9 +182,12 @@ components:
       type: object
       properties:
         comment_id:
-          type: string
-          format: uuid
+          $ref: '#/components/schemas/CommentId'
         # Change to automatically determine once auth is added.
+        reply_id:
+          type: string
+          nullable: true
+          format: uuid
         user_id:
           type: string
           format: uuid
@@ -191,6 +195,14 @@ components:
           type: string
           minLength: 1
           maxLength: 8192
+        postdate:
+          type: string
+          format: date-time
+        vid_id:
+          $ref: '#/components/schemas/VideoId'
+        name:
+          type: string
+      additionalProperties: false
     
     VideoId:
       type: string

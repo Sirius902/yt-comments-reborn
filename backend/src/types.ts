@@ -21,4 +21,5 @@ export type Comment = {
     comment: string;
     postdate: string;
     vid_id: string;
+    name: string;
 };
