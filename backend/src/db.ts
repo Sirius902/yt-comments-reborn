@@ -57,7 +57,10 @@ export async function createComment(info: CommentInfo): Promise<Comment> {
 // TODO: Deserialize comment dates.
 export async function getComments(vidId: string): Promise<Comment[]> {
     const select = (
-        `SELECT * FROM Comments WHERE vid_id = $1`
+        `SELECT c.comment_id, c.reply_id, u.user_id, c.commen, c.postdate, c.vid_id, u.name,
+         FROM Comments c, Users u 
+            WHERE c.vid_id = $1 AND
+            c.user_id == u.user_id `
     );
 
     const {rows} = await pool.query({
