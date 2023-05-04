@@ -10,6 +10,7 @@ export type CommentJson = {
     comment_id: string;
     reply_id: string;
     user_id: string;
+    name: string;
     comment: string;
     postdate: string;
     vid_id: string;

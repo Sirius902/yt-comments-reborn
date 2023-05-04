@@ -4,11 +4,11 @@ import type { CommentJson } from '../App';
 
 export type Props = CommentJson;
 
-const Comment: React.FC<Props> = ({comment, user_id, postdate}) => {
+const Comment: React.FC<Props> = ({comment, name, postdate}) => {
     return (
         <div className='Comment'>
             <div className='Card'>
-                <div className='userName'>{user_id}</div>
+                <div className='userName'>{name}</div>
                 <div className='msg'>{comment}</div>
                 <div>{postdate}</div>
             </div>
