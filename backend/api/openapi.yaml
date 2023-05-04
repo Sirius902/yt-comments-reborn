@@ -169,6 +169,7 @@ components:
           format: uuid
         reply_id:
           type: string
+          nullable: true
           format: uuid
         comment:
           type: string
