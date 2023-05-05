@@ -2,9 +2,9 @@ import type {Request, Response} from 'express';
 
 // TODO: This is kind of cringe.
 export function respondWithError<Req extends Request, Res extends Response>(
-    handler: (req: Req, res: Res) => Promise<void>,
-): (req: Req, res: Res) => Promise<void> {
-    return async (req, res) => {
+    handler: (req: Req, res: Res) => Promise<void>
+) {
+    return async (req: Req, res: Res) => {
         try {
             await handler(req, res);
         } catch (e) {

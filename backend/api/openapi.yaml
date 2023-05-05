@@ -203,12 +203,12 @@ components:
         name:
           type: string
       additionalProperties: false
-    
+
     VideoId:
       type: string
       minLength: 11
       maxLength: 11
-    
+
     CommentId:
       type: string
       format: uuid

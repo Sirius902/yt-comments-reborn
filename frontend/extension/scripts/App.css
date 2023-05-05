@@ -16,19 +16,19 @@
     cursor: pointer;
 }
 
-.App button[id="submitBtn"] {
+.App button[id='submitBtn'] {
     color: #fff;
     background-color: #065fd4;
 }
 
-.App button[id="clearBtn"]:hover {
+.App button[id='clearBtn']:hover {
     color: #aaa;
     background-color: #eee;
 }
 
-.App button[id="replyBtn"]:hover {
+.App button[id='replyBtn']:hover {
     color: #aaa;
-    background-color: #eee
+    background-color: #eee;
 }
 
 .App .btn {
@@ -48,7 +48,7 @@
     margin-bottom: 10px;
     resize: none;
     outline: none;
-    transition: .5s
+    transition: 0.5s;
 }
 
 @media (prefers-color-scheme: dark) {

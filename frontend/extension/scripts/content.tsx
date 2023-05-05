@@ -2,11 +2,11 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App';
 
-function waitForElem(parent: Element, selector: string): Promise<Element> {
-    return new Promise((resolve) => {
+function waitForElem(parent: Element, selector: string) {
+    return new Promise<Element>((resolve) => {
         const element = parent.querySelector(selector);
         if (element !== null) {
-            return resolve(element);
+            resolve(element);
         }
 
         const observer = new MutationObserver(() => {
@@ -43,20 +43,26 @@ function mountApp(comments: Element, videoId: string) {
 chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
     const {parameters} = message;
     const url = new URL(parameters);
-    const videoId = url.searchParams.get('v')!;
-    waitForElem(document.body, '#message.ytd-message-renderer')
-        .then((message) => {
+    const videoId = url.searchParams.get('v');
+
+    if (videoId === null) {
+        console.error('Video ID query param is null!');
+        return;
+    }
+
+    waitForElem(document.body, '#message.ytd-message-renderer').then(
+        (message) => {
             message.remove();
 
-            waitForElem(document.body, '#comments')
-                .then((comments) => {
+            waitForElem(document.body, '#comments').then((comments) => {
+                mountApp(comments, videoId);
+
+                const observer = new MutationObserver(() => {
                     mountApp(comments, videoId);
-
-                    const observer = new MutationObserver(() => {
-                        mountApp(comments, videoId);
-                    });
-
-                    observer.observe(comments, {childList: true});
                 });
-        });
+
+                observer.observe(comments, {childList: true});
+            });
+        }
+    );
 });

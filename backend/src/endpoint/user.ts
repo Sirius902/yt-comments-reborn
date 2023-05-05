@@ -10,7 +10,7 @@ export async function get(_req: Request, res: Response<User[]>) {
 
 export async function post(
     req: Request<ParamsDictionary, User, UserInfo>,
-    res: Response<User>,
+    res: Response<User>
 ) {
     const user = await db.createUser(req.body);
     res.status(200).json(user);

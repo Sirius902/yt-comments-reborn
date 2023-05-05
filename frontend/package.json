@@ -5,7 +5,10 @@
   "scripts": {
     "build": "rollup --config rollup.config.js",
     "watch": "rollup --config rollup.config.js --watch",
-    "lint": "eslint . --ext .ts,.tsx,.js,.css"
+    "lint": "eslint . --ext .ts,.tsx,.js --max-warnings=0",
+    "format:base": "prettier --config ../.prettierrc './**/*.{ts,tsx,css,json}'",
+    "check-format": "npm run format:base -- --check",
+    "format": "npm run format:base -- --write"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +25,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "eslint": "^8.38.0",
     "eslint-config-google": "^0.14.0",
+    "prettier": "^2.8.8",
     "rollup": "^3.20.4",
     "rollup-plugin-import-css": "^3.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",

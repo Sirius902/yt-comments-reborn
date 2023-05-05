@@ -15,31 +15,30 @@ function serializeDate(date: Date): string {
     return date.toISOString();
 }
 
-export async function createUser({name}: UserInfo): Promise<User> {
+export async function createUser({name}: UserInfo) {
     const insert = 'INSERT INTO Users(name) VALUES ($1) RETURNING *';
 
     const {rows} = await pool.query({
         text: insert,
         values: [name],
     });
-    return rows[0];
+    return rows[0] as User;
 }
 
-export async function getUsers(): Promise<User[]> {
+export async function getUsers() {
     const select = 'SELECT * FROM Users';
 
     const {rows} = await pool.query({
         text: select,
         values: [],
     });
-    return rows;
+    return rows as User[];
 }
 
-export async function createComment(info: CommentInfo): Promise<Comment> {
-    const insert = (
-        `INSERT INTO Comments(user_id, reply_id, comment, postdate, vid_id)
-        VALUES ($1, $2, $3, $4, $5) RETURNING *`
-    );
+export async function createComment(info: CommentInfo) {
+    const insert = `INSERT INTO
+        Comments(user_id, reply_id, comment, postdate, vid_id)
+        VALUES ($1, $2, $3, $4, $5) RETURNING *`;
 
     const {rows} = await pool.query({
         text: insert,
@@ -51,35 +50,33 @@ export async function createComment(info: CommentInfo): Promise<Comment> {
             info.vid_id,
         ],
     });
-    return rows[0];
+    return rows[0] as Comment;
 }
 
 // TODO: Deserialize comment dates.
-export async function getComments(vidId: string): Promise<Comment[]> {
-    const select = (
-        `SELECT c.comment_id, c.reply_id, u.user_id, c.comment, c.postdate, c.vid_id, u.name
+export async function getComments(vidId: string) {
+    const select = `SELECT c.comment_id, c.reply_id, u.user_id, c.comment,
+            c.postdate, c.vid_id, u.name
          FROM Comments c, Users u 
             WHERE c.vid_id = $1 AND
-            c.user_id = u.user_id `
-    );
+            c.user_id = u.user_id`;
 
     const {rows} = await pool.query({
         text: select,
         values: [vidId],
     });
-    return rows;
+    return rows as Comment[];
 }
 
-export async function getReplies(commentId: string): Promise<Comment[]>{
-    const select = (
-        `SELECT c.comment_id, c.reply_id, u.user_id, c.comment, c.postdate, c.vid_id, u.name
+export async function getReplies(commentId: string) {
+    const select = `SELECT c.comment_id, c.reply_id, u.user_id, c.comment,
+            c.postdate, c.vid_id, u.name
          FROM Comments c, Users u 
             WHERE c.reply_id = $1 AND
-            c.user_id = u.user_id `
-    );
+            c.user_id = u.user_id `;
     const {rows} = await pool.query({
         text: select,
-        values: [commentId]
-    })
-    return rows;
+        values: [commentId],
+    });
+    return rows as Comment[];
 }

@@ -8,7 +8,7 @@ import {middleware} from 'express-openapi-validator';
 import {fileURLToPath} from 'node:url';
 import * as user from './endpoint/user';
 import * as comment from './endpoint/comment';
-import * as reply from './endpoint/reply'
+import * as reply from './endpoint/reply';
 import {respondWithError} from './util';
 
 const app = express();
@@ -28,7 +28,7 @@ app.use(
         apiSpec,
         validateRequests: true,
         validateResponses: true,
-    }),
+    })
 );
 
 app.get('/v0/user', respondWithError(user.get));
@@ -39,12 +39,14 @@ app.post('/v0/comment', respondWithError(comment.post));
 
 app.get('/v0/reply', respondWithError(reply.get));
 
-app.use([(err, _req, res, _next) => {
-    res.status(err.status).json({
-        message: err.message,
-        errors: err.errors,
-        status: err.status,
-    });
-}]);
+app.use([
+    (err, _req, res, _next) => {
+        res.status(err.status).json({
+            message: err.message,
+            errors: err.errors,
+            status: err.status,
+        });
+    },
+]);
 
 export default app;
