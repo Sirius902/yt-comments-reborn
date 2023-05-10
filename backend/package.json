@@ -6,7 +6,7 @@
     "build": "tsc --noEmit && vite build",
     "start": "nodemon -e ts,yaml --watch src --watch api --exec \"npm run build && node build/main.js\"",
     "lint": "eslint . --ext .ts --max-warnings=0",
-    "format:base": "prettier --config ../.prettierrc './**/*.{ts,json,yaml}'",
+    "format:base": "prettier --config ../.prettierrc ./**/*.{ts,json,yaml}",
     "check-format": "npm run format:base -- --check",
     "format": "npm run format:base -- --write"
   },

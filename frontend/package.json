@@ -6,7 +6,7 @@
     "build": "rollup --config rollup.config.js",
     "watch": "rollup --config rollup.config.js --watch",
     "lint": "eslint . --ext .ts,.tsx,.js --max-warnings=0",
-    "format:base": "prettier --config ../.prettierrc './**/*.{ts,tsx,css,json}'",
+    "format:base": "prettier --config ../.prettierrc ./**/*.{ts,tsx,css,json}",
     "check-format": "npm run format:base -- --check",
     "format": "npm run format:base -- --write"
   },
