@@ -6,10 +6,14 @@
   "icons": {
     "128": "/img/icon128.png"
   },
-  "permissions": ["activeTab", "tabs"],
+  "permissions": ["activeTab", "tabs", "identity"],
   "host_permissions": ["https://www.youtube.com/watch?v=*"],
   "background": {
     "service_worker": "build/background.js"
+  },
+  "oauth2": {
+    "client_id": "424285210271-bheth17hlklfmmgpckqai3nlpeuqp31j.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
   },
   "content_scripts": [
     {

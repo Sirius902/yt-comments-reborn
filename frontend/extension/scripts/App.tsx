@@ -4,6 +4,7 @@ import './App.css';
 
 interface Props {
     videoId: string;
+    token: string;
 }
 
 export type CommentJson = {
@@ -30,7 +31,7 @@ export type ErrorResponse = {
 
 const backendUrl = 'http://localhost:3010';
 
-const App: React.FC<Props> = ({videoId}) => {
+const App: React.FC<Props> = ({videoId, token}) => {
     const commentBox = React.useRef<HTMLTextAreaElement>(null);
     const [errorMessage, setErrorMessage] = useState('Loading...');
     const [comments, setComments] = useState<CommentJson[] | null>(null);

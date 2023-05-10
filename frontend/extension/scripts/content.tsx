@@ -25,7 +25,7 @@ function waitForElem(parent: Element, selector: string) {
     });
 }
 
-function mountApp(comments: Element, videoId: string) {
+function mountApp(comments: Element, videoId: string, token: string) {
     const reactRoot = document.getElementById('react-root');
     if (reactRoot === null) {
         const app = document.createElement('div');
@@ -34,14 +34,14 @@ function mountApp(comments: Element, videoId: string) {
         const root = createRoot(app);
         root.render(
             <React.StrictMode>
-                <App videoId={videoId} />
+                <App videoId={videoId} token={token} />
             </React.StrictMode>
         );
     }
 }
 
 chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
-    const {parameters} = message;
+    const {parameters, token} = message;
     const url = new URL(parameters);
     const videoId = url.searchParams.get('v');
 
@@ -55,10 +55,10 @@ chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
             message.remove();
 
             waitForElem(document.body, '#comments').then((comments) => {
-                mountApp(comments, videoId);
+                mountApp(comments, videoId, token);
 
                 const observer = new MutationObserver(() => {
-                    mountApp(comments, videoId);
+                    mountApp(comments, videoId, token);
                 });
 
                 observer.observe(comments, {childList: true});
