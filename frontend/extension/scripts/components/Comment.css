@@ -22,6 +22,37 @@
     font-weight: bold;
 }
 
+.Comment button.replyBtn {
+    color: #aaa;
+    background-color: transparent;
+    padding: 5px 7px;
+}
+
+.Comment button.replyBtn:hover {
+    color: #888;
+    background-color: #eee;
+}
+
+.Comment button.replyChain {
+    display: contents;
+}
+
+.Comment button.replyChain > * {
+    display: inline-block;
+    color: #3ea6ff;
+    font-size: 20px;
+    padding: 0.25em;
+    margin-left: 10px;
+    background: none;
+    border-radius: 50%;
+    border: none;
+}
+
+.Comment button.replyChain > *:hover {
+    font-size: 20px;
+    background: rgba(62, 166, 187, 0.25);
+}
+
 .ReactCollapse--collapse {
     transition: height 500ms;
 }

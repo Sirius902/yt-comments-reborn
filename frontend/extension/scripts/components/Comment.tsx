@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import { TfiAngleDown } from 'react-icons/tfi';
+import {TfiAngleDown} from 'react-icons/tfi';
 import {Collapse, UnmountClosed} from 'react-collapse';
 import './Comment.css';
 import type {CommentJson} from '../App';
@@ -20,16 +20,14 @@ const Comment: React.FC<Props> = ({comment, name, postdate}) => {
                 <div>{postdate}</div>
             </div>
             <div>
-                <button id="replyBtn">Reply</button>
+                <button className="replyBtn">Reply</button>
             </div>
-            <button id="replyChain" onClick={onClick}>
+            <button className="replyChain" onClick={onClick}>
                 <TfiAngleDown />
             </button>
             <div>
                 <Collapse isOpened={expanded}>
-                    <div>
-                        some bullshit
-                    </div>
+                    <div>some bullshit</div>
                 </Collapse>
             </div>
         </div>

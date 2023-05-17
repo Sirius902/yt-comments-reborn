@@ -44,11 +44,11 @@ const App: React.FC<Props> = ({videoId, token}) => {
         });
         const res = await fetch(request);
         if (res.ok) {
-           console.log('PLACEHOLDER: Token sent to backend'); 
+            console.log('PLACEHOLDER: Token sent to backend');
         } else {
             res.json().then((json) => console.log(json));
         }
-    }
+    };
 
     const fetchComments = async () => {
         const res = await fetch(`${backendUrl}/v0/comment?vid_id=${videoId}`, {
@@ -61,7 +61,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
             res.json().then((json) => console.log(json));
         }
     };
-    
+
     const postComment = async (comment: NewCommentJson) => {
         const request = new Request(`${backendUrl}/v0/comment`, {
             method: 'POST',
