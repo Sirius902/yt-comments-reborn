@@ -21,14 +21,38 @@
     background-color: #065fd4;
 }
 
-.App button[id='clearBtn']:hover {
+.App button[id='clearBtn'] {
     color: #aaa;
     background-color: #eee;
 }
 
-.App button[id='replyBtn']:hover {
+.App button[id='replyBtn'] {
     color: #aaa;
-    background-color: #eee;
+    background-color: transparent;
+    font-size: 8px;
+    padding: 5px 7px;
+}
+
+.App button[id='replyBtn']:hover {
+    background-color: #eee
+}
+.App button[id='replyChain'] {
+    color: #3ea6ff;
+    font-size: 20px;
+    padding: 0px;
+    background-color: transparent;
+    border-radius: 0px;
+    margin-left: 10px;
+}
+
+.App button[id='replyChain']:hover {
+    color: #3ea6ff;
+    font-size: 20px;
+    padding: 0px;
+    background-color: #3ea6bb;
+    opacity: 25%;
+    border-radius: 25px;
+    margin-left: 10px;
 }
 
 .App .btn {

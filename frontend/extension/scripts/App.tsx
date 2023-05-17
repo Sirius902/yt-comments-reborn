@@ -36,33 +36,45 @@ const App: React.FC<Props> = ({videoId, token}) => {
     const [errorMessage, setErrorMessage] = useState('Loading...');
     const [comments, setComments] = useState<CommentJson[] | null>(null);
     const [refetchComments, forceRefetchComments] = useReducer((x) => x + 1, 0);
-    const fetchComments = () => {
-        return fetch(`${backendUrl}/v0/comment?vid_id=${videoId}`, {
-            method: 'GET',
-        }).then((res) => {
-            if (res.ok) {
-                res.json().then((json) => setComments(json as CommentJson[]));
-            } else {
-                setErrorMessage('Failed to load comments!');
-                res.json().then((json) => console.log(json));
-            }
+    console.log(token);
+    const postAuthToken = async () => {
+        const request = new Request(`${backendUrl}/v0/login`, {
+            method: 'POST',
+            body: JSON.stringify({token}),
         });
-    };
+        const res = await fetch(request);
+        if (res.ok) {
+           console.log('PLACEHOLDER: Token sent to backend'); 
+        } else {
+            res.json().then((json) => console.log(json));
+        }
+    }
 
-    const postComment = (comment: NewCommentJson) => {
+    const fetchComments = async () => {
+        const res = await fetch(`${backendUrl}/v0/comment?vid_id=${videoId}`, {
+            method: 'GET',
+        });
+        if (res.ok) {
+            res.json().then((json) => setComments(json as CommentJson[]));
+        } else {
+            setErrorMessage('Failed to load comments!');
+            res.json().then((json) => console.log(json));
+        }
+    };
+    
+    const postComment = async (comment: NewCommentJson) => {
         const request = new Request(`${backendUrl}/v0/comment`, {
             method: 'POST',
             headers: {[`Content-Type`]: 'application/json'},
             body: JSON.stringify(comment),
         });
-        return fetch(request).then((res) => {
-            if (res.ok) {
-                forceRefetchComments();
-                return res.json();
-            } else {
-                res.json().then((json) => console.log(json));
-            }
-        });
+        const res = await fetch(request);
+        if (res.ok) {
+            forceRefetchComments();
+            return res.json();
+        } else {
+            res.json().then((json) => console.log(json));
+        }
     };
 
     useEffect(() => {

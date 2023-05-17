@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {useState, useCallback} from 'react';
+import { TfiAngleDown } from 'react-icons/tfi';
+import {Collapse, UnmountClosed} from 'react-collapse';
 import './Comment.css';
 import type {CommentJson} from '../App';
 
 export type Props = CommentJson;
 
 const Comment: React.FC<Props> = ({comment, name, postdate}) => {
+    const [expanded, setExpanded] = useState(false);
+    const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        setExpanded(!expanded);
+        e.preventDefault();
+    };
     return (
         <div className="Comment">
             <div className="Card">
@@ -14,6 +21,16 @@ const Comment: React.FC<Props> = ({comment, name, postdate}) => {
             </div>
             <div>
                 <button id="replyBtn">Reply</button>
+            </div>
+            <button id="replyChain" onClick={onClick}>
+                <TfiAngleDown />
+            </button>
+            <div>
+                <Collapse isOpened={expanded}>
+                    <div>
+                        some bullshit
+                    </div>
+                </Collapse>
             </div>
         </div>
     );
