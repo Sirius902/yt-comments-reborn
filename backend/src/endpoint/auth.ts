@@ -1,9 +1,9 @@
-import type {Request, Response} from 'express';
+import type {NextFunction, Request, Response} from 'express';
 import * as db from '../db';
 import type {AuthUser, Credentials} from '../types';
 import type {ParamsDictionary} from 'express-serve-static-core';
 import fetch from 'node-fetch';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import fss from 'node:fs';
@@ -35,7 +35,7 @@ type UserInfo = {
 
 export interface AuthRequest<P = ParamsDictionary, Res = unknown, Req = unknown>
     extends Request<P, Res, Req> {
-    user_id?: string;
+    userId?: string;
 }
 
 export async function login(
@@ -58,9 +58,9 @@ export async function login(
         picture?: string;
     };
     if (
-        userInfoJson.name != null &&
-        userInfoJson.email != null &&
-        userInfoJson.picture != null
+        userInfoJson.name == null ||
+        userInfoJson.email == null ||
+        userInfoJson.picture == null
     ) {
         res.status(401).send('Invalid token');
         return;
@@ -83,7 +83,11 @@ export async function login(
     res.status(200).json({access_token: accessToken});
 }
 
-export async function check(req: AuthRequest, res: Response) {
+export async function check(
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+) {
     const authHeader = req.headers.authorization;
     if (authHeader != null) {
         const token = authHeader.split(' ')[1];
@@ -91,7 +95,8 @@ export async function check(req: AuthRequest, res: Response) {
             if (err) {
                 return res.sendStatus(403);
             }
-            req.user_id = (user as {access_token: string}).access_token;
+            req.userId = (user as {user_id: string}).user_id;
+            next();
         });
     } else {
         res.sendStatus(401);

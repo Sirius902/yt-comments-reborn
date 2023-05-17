@@ -13,12 +13,13 @@ export async function get(
 }
 
 export async function post(
-    req: AuthRequest<ParamsDictionary, Comment, CommentInfo>,
-    res: Response<Comment>
+    req: AuthRequest<ParamsDictionary, Comment | string, CommentInfo>,
+    res: Response<Comment | string>
 ) {
-    if (req.user_id == null) {
-        throw new Error('oh no help user id is null');
+    if (req.userId == null) {
+        res.status(500).send('user_id is null');
+        return;
     }
-    const comment = await db.createComment(req.user_id, req.body);
+    const comment = await db.createComment(req.userId, req.body);
     res.status(200).json(comment);
 }
