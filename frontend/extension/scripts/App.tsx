@@ -36,7 +36,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
     const [errorMessage, setErrorMessage] = useState('Loading...');
     const [comments, setComments] = useState<CommentJson[] | null>(null);
     const [refetchComments, forceRefetchComments] = useReducer((x) => x + 1, 0);
-    console.log(token);
+    
     const postAuthToken = async () => {
         const request = new Request(`${backendUrl}/v0/login`, {
             method: 'POST',
