@@ -34,11 +34,6 @@
 }
 
 .Comment button.replyChain {
-    display: contents;
-}
-
-.Comment button.replyChain > * {
-    display: inline-block;
     color: #3ea6ff;
     font-size: 20px;
     padding: 0.25em;
@@ -48,9 +43,13 @@
     border: none;
 }
 
-.Comment button.replyChain > *:hover {
+.Comment button.replyChain:hover {
     font-size: 20px;
     background: rgba(62, 166, 187, 0.25);
+}
+
+.Comment svg {
+    display: block;
 }
 
 .ReactCollapse--collapse {
