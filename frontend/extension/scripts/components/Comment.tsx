@@ -19,7 +19,7 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
     };
     const {name, comment: message, postdate} = comment;
     const replies = comments.filter(
-        (reply) => reply.comment_id === reply.reply_id
+        (reply) => comment.comment_id === reply.reply_id
     );
     return (
         <div className="Comment">
