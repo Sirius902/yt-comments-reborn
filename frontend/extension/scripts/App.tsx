@@ -37,6 +37,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
     const [comments, setComments] = useState<CommentJson[] | null>(null);
     const [refetchComments, forceRefetchComments] = useReducer((x) => x + 1, 0);
 
+    // TODO: Use this function to send Auth Token to backend
     const postAuthToken = async () => {
         const request = new Request(`${backendUrl}/v0/login`, {
             method: 'POST',
@@ -49,6 +50,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
             res.json().then((json) => console.log(json));
         }
     };
+    console.log(postAuthToken);
 
     const fetchComments = async () => {
         const res = await fetch(`${backendUrl}/v0/comment?vid_id=${videoId}`, {
@@ -103,6 +105,10 @@ const App: React.FC<Props> = ({videoId, token}) => {
         e.preventDefault();
     };
 
+    const topLevelComments = comments?.filter(
+        (comment) => comment.reply_id === null
+    );
+
     return (
         <div className="App">
             <div className="container">
@@ -123,10 +129,12 @@ const App: React.FC<Props> = ({videoId, token}) => {
                 </form>
             </div>
             <div>
-                {comments === null ? (
+                {topLevelComments == null || comments == null ? (
                     <div>{errorMessage}</div>
                 ) : (
-                    comments.map((comment) => <Comment {...comment} />)
+                    topLevelComments.map((comment) => (
+                        <Comment comments={comments} comment={comment} />
+                    ))
                 )}
             </div>
         </div>

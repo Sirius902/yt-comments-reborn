@@ -1,4 +1,5 @@
 .Comment {
+    font-size: 1.4rem;
     width: 800px;
     margin-top: 2rem;
 }
@@ -14,11 +15,9 @@
 .Comment .msg {
     margin: 5px 15px;
     text-align: left;
-    font-size: 1.4rem;
 }
 
 .Comment .userName {
-    font-size: 1.4rem;
     font-weight: bold;
 }
 
@@ -50,6 +49,10 @@
 
 .Comment svg {
     display: block;
+}
+
+.Comment .replies {
+    margin-left: 2em;
 }
 
 .ReactCollapse--collapse {
