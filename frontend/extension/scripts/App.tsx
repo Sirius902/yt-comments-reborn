@@ -38,6 +38,9 @@ const App: React.FC<Props> = ({videoId, token}) => {
     const [refetchComments, forceRefetchComments] = useReducer((x) => x + 1, 0);
 
     // TODO: Use this function to send Auth Token to backend
+    /**
+     * POSTs the user's AuthToken to the backend
+     */
     const postAuthToken = async () => {
         const request = new Request(`${backendUrl}/v0/login`, {
             method: 'POST',
@@ -52,6 +55,11 @@ const App: React.FC<Props> = ({videoId, token}) => {
     };
     console.log(postAuthToken);
 
+    /**
+     * GETs all of the comments on a video denoted by videoId from the backend
+     * Once the GET request is completed,
+     * setComments() is called with the comments as a CommentJson[]
+     */
     const fetchComments = async () => {
         const res = await fetch(`${backendUrl}/v0/comment?vid_id=${videoId}`, {
             method: 'GET',
@@ -64,6 +72,13 @@ const App: React.FC<Props> = ({videoId, token}) => {
         }
     };
 
+    /**
+     * POSTs a comment to the backend.
+     * Once the POST request is completed,
+     * forceRefetchComments() is called to reload the comments.
+     * @param {CommentJson} comment a CommentJson to send to the backend
+     * @return {Promise<CommentJson | undefined>} response from backend
+     */
     const postComment = async (comment: NewCommentJson) => {
         const request = new Request(`${backendUrl}/v0/comment`, {
             method: 'POST',
@@ -73,7 +88,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
         const res = await fetch(request);
         if (res.ok) {
             forceRefetchComments();
-            return res.json();
+            return (await res.json()) as CommentJson;
         } else {
             res.json().then((json) => console.log(json));
         }
@@ -83,6 +98,15 @@ const App: React.FC<Props> = ({videoId, token}) => {
         fetchComments();
     }, [refetchComments]);
 
+    /**
+     * Called upon clicking submitBtn
+     * Calls postComment() with the current
+     * user_id, commentBox value, reply_id,
+     * and vid_id.
+     * Sets commentBox value to '' once postComment()
+     * is completed.
+     * @param {React.MouseEvent<HTMLButtonElement>} e
+     */
     const addComment = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (commentBox.current !== null && commentBox.current.value !== '') {
             const userId = '37c1ac27-1230-4fa6-9e0d-70fe5306c3c5';
@@ -97,6 +121,12 @@ const App: React.FC<Props> = ({videoId, token}) => {
         e.preventDefault();
     };
 
+    /**
+     * Called upon clicking clearBtn.
+     * Sets commentBox value to '' once clearBtn
+     * is pressed.
+     * @param {React.MouseEvent<HTMLButtonElement>} e
+     */
     const clearInput = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (commentBox.current !== null) {
             commentBox.current.value = '';
@@ -105,6 +135,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
         e.preventDefault();
     };
 
+    /** Generates a commentJson[] of all comments that don't have replies. */
     const topLevelComments = comments?.filter(
         (comment) => comment.reply_id === null
     );

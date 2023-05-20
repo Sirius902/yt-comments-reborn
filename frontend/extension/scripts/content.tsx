@@ -2,7 +2,13 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App';
 
-function waitForElem(parent: Element, selector: string) {
+/**
+ * Returns a specific element once it is loaded on a page.
+ * @param {Element} parent The parent element.
+ * @param {string} selector A string denoting a query selector.
+ * @return {Promise<Element>} Element specified by parent and selector.
+ */
+function waitForElem(parent: Element, selector: string): Promise<Element> {
     return new Promise<Element>((resolve) => {
         const element = parent.querySelector(selector);
         if (element !== null) {
@@ -25,6 +31,13 @@ function waitForElem(parent: Element, selector: string) {
     });
 }
 
+/**
+ * Mounts React App under a react-root element
+ * if there isn't a react-root element
+ * @param {Elemet} comments Element containing original comment section.
+ * @param {string} videoId The current video id.
+ * @param {string} token The current user's auth token.
+ */
 function mountApp(comments: Element, videoId: string, token: string) {
     const reactRoot = document.getElementById('react-root');
     if (reactRoot === null) {
@@ -40,6 +53,12 @@ function mountApp(comments: Element, videoId: string, token: string) {
     }
 }
 
+/**
+ * Listener that triggers once a message is received from
+ * background.js.
+ * Once triggered, removes message element and replaces it
+ * with custom comment section.
+ */
 chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
     const {parameters, token} = message;
     const url = new URL(parameters);

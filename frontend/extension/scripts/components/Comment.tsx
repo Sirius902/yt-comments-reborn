@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TfiAngleDown} from 'react-icons/tfi';
+import {TfiAngleDown, TfiAngleUp} from 'react-icons/tfi';
 import {Collapse} from 'react-collapse';
 // TODO: Parse UTC strings into readable format
 // import moment from 'moment';
@@ -18,6 +18,7 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
         e.preventDefault();
     };
     const {name, comment: message, postdate} = comment;
+    /** Generates a CommentJson[] of all replies to a comment */
     const replies = comments.filter(
         (reply) => comment.comment_id === reply.reply_id
     );
@@ -32,7 +33,7 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
                 <button className="replyBtn">Reply</button>
             </div>
             <button className="replyChain" onClick={onClick}>
-                <TfiAngleDown />
+                {expanded === true ? <TfiAngleUp /> : <TfiAngleDown />}
             </button>
             <div>
                 <Collapse isOpened={expanded}>

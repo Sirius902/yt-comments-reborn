@@ -4,7 +4,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             const queryParameters = tab.url;
             chrome.identity.getAuthToken({interactive: true}, (token) => {
                 chrome.tabs.sendMessage(tabId, {
-                    id: tabId,
                     parameters: queryParameters,
                     token: token,
                 });

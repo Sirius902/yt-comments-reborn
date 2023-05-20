@@ -47,6 +47,10 @@
     background: rgba(62, 166, 187, 0.25);
 }
 
+.Comment button.replyChain:active {
+    background: rgba(128, 147, 185, 0.25);
+}
+
 .Comment svg {
     display: block;
 }
