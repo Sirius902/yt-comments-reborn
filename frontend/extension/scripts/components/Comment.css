@@ -9,7 +9,7 @@
     display: grid;
     grid-template-columns: auto;
     margin: 0.5rem;
-    border-bottom: 1px solid #eee;
+    /* border-bottom: 1px solid #eee; */
 }
 
 .Comment .msg {
@@ -17,12 +17,21 @@
     text-align: left;
 }
 
+.Comment .header {
+    display: flex;
+}
 .Comment .userName {
     font-weight: bold;
 }
 
-.Comment button.replyBtn {
+.Comment .date {
     color: #aaa;
+    margin-top: 1.5px;
+    margin-left: 10px;
+}
+
+.Comment button.replyBtn {
+    color: #fff;
     background-color: transparent;
     padding: 5px 7px;
 }

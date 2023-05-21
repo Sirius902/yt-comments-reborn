@@ -25,15 +25,17 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
     return (
         <div className="Comment">
             <div className="Card">
-                <div className="userName">{name}</div>
-                <div className="date">{relativePostDate}</div>
+                <div className="header">
+                    <div className="userName">{name}</div>
+                    <div className="date">{relativePostDate}</div>
+                </div>
                 <div className="msg">{message}</div>
             </div>
-            <div>
+            <div className="footer">
                 <button className="replyBtn">Reply</button>
             </div>
             <button className="replyChain" onClick={onClick}>
-                {expanded === true ? <TfiAngleUp /> : <TfiAngleDown />}
+                {expanded ? <TfiAngleUp /> : <TfiAngleDown />}
             </button>
             <div>
                 <Collapse isOpened={expanded}>
