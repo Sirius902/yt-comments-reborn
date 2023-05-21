@@ -21,12 +21,7 @@
     background-color: #065fd4;
 }
 
-.App button[id='clearBtn']:hover {
-    color: #aaa;
-    background-color: #eee;
-}
-
-.App button[id='replyBtn']:hover {
+.App button[id='clearBtn'] {
     color: #aaa;
     background-color: #eee;
 }

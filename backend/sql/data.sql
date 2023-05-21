@@ -9,7 +9,7 @@ insert into Users (user_id, email, picture, name) values ('48f8ca1e-feb3-47a5-b5
 insert into Users (user_id, email, picture, name) values ('78c0e2a6-8cdf-47a8-9e88-883471fde0dd', 'rosalinde.herreran@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Rosalinde Herreran');
 insert into Users (user_id, email, picture, name) values ('02689fd9-dc26-4769-ac91-228a566ddd01', 'wilow.pottiphar@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Wilow Pottiphar');
 
-insert into Comments (comment_id, user_id, comment, postdate, vid_id) values ('ca92c661-608a-4fb5-9cce-b818e46343d7', '48f8ca1e-feb3-47a5-b55f-cfae9b29e1c6', 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+insert into Comments (comment_id, user_id, reply_id, comment, postdate, vid_id) values ('ca92c661-608a-4fb5-9cce-b818e46343d7', '48f8ca1e-feb3-47a5-b55f-cfae9b29e1c6', '80d9a54e-7c9d-4820-9aa3-404e5cedd2a7', 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 

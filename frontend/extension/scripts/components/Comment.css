@@ -1,4 +1,5 @@
 .Comment {
+    font-size: 1.4rem;
     width: 800px;
     margin-top: 2rem;
 }
@@ -14,10 +15,50 @@
 .Comment .msg {
     margin: 5px 15px;
     text-align: left;
-    font-size: 1.4rem;
 }
 
 .Comment .userName {
-    font-size: 1.4rem;
     font-weight: bold;
+}
+
+.Comment button.replyBtn {
+    color: #aaa;
+    background-color: transparent;
+    padding: 5px 7px;
+}
+
+.Comment button.replyBtn:hover {
+    color: #888;
+    background-color: #eee;
+}
+
+.Comment button.replyChain {
+    color: #3ea6ff;
+    font-size: 20px;
+    padding: 0.25em;
+    margin-left: 10px;
+    background: none;
+    border-radius: 50%;
+    border: none;
+}
+
+.Comment button.replyChain:hover {
+    font-size: 20px;
+    background: rgba(62, 166, 187, 0.25);
+}
+
+.Comment button.replyChain:active {
+    background: rgba(128, 147, 185, 0.25);
+}
+
+.Comment svg {
+    display: block;
+}
+
+.Comment .replies {
+    margin-left: 2em;
+}
+
+.ReactCollapse--collapse {
+    transition: height 500ms;
 }
