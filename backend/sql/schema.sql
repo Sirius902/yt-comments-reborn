@@ -3,6 +3,8 @@ CREATE SCHEMA backend_reborn;
 
 CREATE TABLE Users (
     user_id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(320) UNIQUE NOT NULL,
+    picture VARCHAR(2048) NOT NULL,
     name VARCHAR(64) NOT NULL
 );
 
@@ -19,5 +21,3 @@ CREATE TABLE Comments (
     vid_id CHAR(11) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
-
-

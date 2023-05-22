@@ -9,6 +9,32 @@ servers:
   - url: http://localhost:3010/v0
 
 paths:
+  /login:
+    post:
+      description: Login
+      requestBody:
+        description: Credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        200:
+          description: Auth User Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthUser'
+        401:
+          description: Unauthorized
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /user:
     get:
       description: User Endpoint
@@ -21,28 +47,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    post:
-      description: User Endpoint
-      requestBody:
-        description: Request Body
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserInfo'
-      responses:
-        200:
-          description: User Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
         default:
           description: Unexpected Error
           content:
@@ -75,6 +79,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     post:
+      security:
+        - bearerAuth: []
       description: Comment Endpoint
       requestBody:
         description: Request Body
@@ -96,6 +102,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
   /reply:
     get:
       description: Reply Endpoint
@@ -120,6 +127,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
 components:
   schemas:
     Error:
@@ -134,17 +142,6 @@ components:
         - message
       additionalProperties: false
 
-    UserInfo:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 64
-      required:
-        - name
-      additionalProperties: false
-
     User:
       type: object
       properties:
@@ -155,18 +152,22 @@ components:
           type: string
           minLength: 1
           maxLength: 64
+        email:
+          type: string
+          format: email
+        picture:
+          type: string
+          format: uri
       required:
         - user_id
         - name
+        - email
+        - picture
       additionalProperties: false
 
     CommentInfo:
       type: object
       properties:
-        # Change to automatically determine once auth is added.
-        user_id:
-          type: string
-          format: uuid
         reply_id:
           type: string
           nullable: true
@@ -177,13 +178,13 @@ components:
           maxLength: 8192
         vid_id:
           $ref: '#/components/schemas/VideoId'
+      additionalProperties: false
 
     Comment:
       type: object
       properties:
         comment_id:
           $ref: '#/components/schemas/CommentId'
-        # Change to automatically determine once auth is added.
         reply_id:
           type: string
           nullable: true
@@ -212,3 +213,23 @@ components:
     CommentId:
       type: string
       format: uuid
+
+    Credentials:
+      type: object
+      properties:
+        token:
+          type: string
+      additionalProperties: false
+
+    AuthUser:
+      type: object
+      properties:
+        access_token:
+          type: string
+      additionalProperties: false
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

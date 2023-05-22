@@ -1,13 +1,13 @@
-insert into Users (user_id, name) values ('37c1ac27-1230-4fa6-9e0d-70fe5306c3c5', 'Kacy Gariff');
-insert into Users (user_id, name) values ('92289514-dbd8-4cf4-91a6-2dc9c5ad5ef6', 'Annabell Hane');
-insert into Users (user_id, name) values ('35359762-7a0d-4ef7-b1b3-102da7590b9c', 'Arlinda Bernath');
-insert into Users (user_id, name) values ('342762a0-5dd8-4c2b-b8d5-28c9ff9da6b1', 'Ayn Sainteau');
-insert into Users (user_id, name) values ('73759268-5d78-4b29-8508-b7bba75d59f2', 'Kay Bachelor');
-insert into Users (user_id, name) values ('baaec40b-5c21-40ec-941e-20014713792b', 'Bobbi Mylechreest');
-insert into Users (user_id, name) values ('093d8926-cef9-4a4b-a1de-7717722fe38d', 'Essa Lillford');
-insert into Users (user_id, name) values ('48f8ca1e-feb3-47a5-b55f-cfae9b29e1c6', 'Riane Pactat');
-insert into Users (user_id, name) values ('78c0e2a6-8cdf-47a8-9e88-883471fde0dd', 'Rosalinde Herreran');
-insert into Users (user_id, name) values ('02689fd9-dc26-4769-ac91-228a566ddd01', 'Wilow Pottiphar');
+insert into Users (user_id, email, picture, name) values ('37c1ac27-1230-4fa6-9e0d-70fe5306c3c5', 'kacy.gariff@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Kacy Gariff');
+insert into Users (user_id, email, picture, name) values ('92289514-dbd8-4cf4-91a6-2dc9c5ad5ef6', 'annabell.hane@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Annabell Hane');
+insert into Users (user_id, email, picture, name) values ('35359762-7a0d-4ef7-b1b3-102da7590b9c', 'arlinda.bernath@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Arlinda Bernath');
+insert into Users (user_id, email, picture, name) values ('342762a0-5dd8-4c2b-b8d5-28c9ff9da6b1', 'ayn.sainteau@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Ayn Sainteau');
+insert into Users (user_id, email, picture, name) values ('73759268-5d78-4b29-8508-b7bba75d59f2', 'kay.bachelor@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Kay Bachelor');
+insert into Users (user_id, email, picture, name) values ('baaec40b-5c21-40ec-941e-20014713792b', 'bobbi.mylechreest@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Bobbi Mylechreest');
+insert into Users (user_id, email, picture, name) values ('093d8926-cef9-4a4b-a1de-7717722fe38d', 'essa.lillford@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Essa Lillford');
+insert into Users (user_id, email, picture, name) values ('48f8ca1e-feb3-47a5-b55f-cfae9b29e1c6', 'riane.pactat@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Riane Pactat');
+insert into Users (user_id, email, picture, name) values ('78c0e2a6-8cdf-47a8-9e88-883471fde0dd', 'rosalinde.herreran@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Rosalinde Herreran');
+insert into Users (user_id, email, picture, name) values ('02689fd9-dc26-4769-ac91-228a566ddd01', 'wilow.pottiphar@gmail.com', 'https://yt3.googleusercontent.com/ytc/AGIKgqOnBN9Fze9naSk9bKiMEMwBqFyrxeVhYoVSM1rl=s176-c-k-c0x00ffffff-no-rj', 'Wilow Pottiphar');
 
 insert into Comments (comment_id, user_id, reply_id, comment, postdate, vid_id) values ('ca92c661-608a-4fb5-9cce-b818e46343d7', '48f8ca1e-feb3-47a5-b55f-cfae9b29e1c6', '80d9a54e-7c9d-4820-9aa3-404e5cedd2a7', 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 

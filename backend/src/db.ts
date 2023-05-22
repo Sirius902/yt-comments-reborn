@@ -15,12 +15,23 @@ function serializeDate(date: Date): string {
     return date.toISOString();
 }
 
-export async function createUser({name}: UserInfo) {
-    const insert = 'INSERT INTO Users(name) VALUES ($1) RETURNING *';
+export async function createUser({name, email, picture}: UserInfo) {
+    const insert = `INSERT INTO Users(name, email, picture)
+        VALUES ($1, $2, $3) RETURNING *`;
 
     const {rows} = await pool.query({
         text: insert,
-        values: [name],
+        values: [name, email, picture],
+    });
+    return rows[0] as User;
+}
+
+export async function getUser(email: string) {
+    const select = 'SELECT * FROM Users WHERE email = $1';
+
+    const {rows} = await pool.query({
+        text: select,
+        values: [email],
     });
     return rows[0] as User;
 }
@@ -35,7 +46,7 @@ export async function getUsers() {
     return rows as User[];
 }
 
-export async function createComment(info: CommentInfo) {
+export async function createComment(userId: string, info: CommentInfo) {
     const insert = `INSERT INTO
         Comments(user_id, reply_id, comment, postdate, vid_id)
         VALUES ($1, $2, $3, $4, $5) RETURNING *`;
@@ -43,7 +54,7 @@ export async function createComment(info: CommentInfo) {
     const {rows} = await pool.query({
         text: insert,
         values: [
-            info.user_id,
+            userId,
             info.reply_id,
             info.comment,
             serializeDate(new Date()),

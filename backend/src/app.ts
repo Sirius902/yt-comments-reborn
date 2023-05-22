@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {middleware} from 'express-openapi-validator';
 import {fileURLToPath} from 'node:url';
+import * as auth from './endpoint/auth';
 import * as user from './endpoint/user';
 import * as comment from './endpoint/comment';
 import * as reply from './endpoint/reply';
@@ -31,11 +32,12 @@ app.use(
     })
 );
 
+app.post('/v0/login', respondWithError(auth.login));
+
 app.get('/v0/user', respondWithError(user.get));
-app.post('/v0/user', respondWithError(user.post));
 
 app.get('/v0/comment', respondWithError(comment.get));
-app.post('/v0/comment', respondWithError(comment.post));
+app.post('/v0/comment', auth.check, respondWithError(comment.post));
 
 app.get('/v0/reply', respondWithError(reply.get));
 
