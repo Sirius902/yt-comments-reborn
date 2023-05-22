@@ -8,6 +8,7 @@ import * as auth from './endpoint/auth';
 import * as user from './endpoint/user';
 import * as comment from './endpoint/comment';
 import * as reply from './endpoint/reply';
+import * as likes from './endpoint/likes';
 import {respondWithError} from './util';
 
 const app = express();
@@ -27,6 +28,9 @@ app.use(
         validateResponses: true,
     })
 );
+
+app.put('/v0/like/:id',auth.check,respondWithError(likes.put))
+app.get('/v0/like/:id',respondWithError(likes.get))
 
 app.post('/v0/login', respondWithError(auth.login));
 
