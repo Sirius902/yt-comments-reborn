@@ -4,10 +4,12 @@ import typescript from '@rollup/plugin-typescript';
 import external from 'rollup-plugin-peer-deps-external';
 import replace from '@rollup/plugin-replace';
 import css from 'rollup-plugin-import-css';
+import json from '@rollup/plugin-json';
 
 const plugins = [
     external(),
     resolve({browser: true}),
+    json(),
     css(),
     commonjs(),
     replace({

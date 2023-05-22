@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {TfiAngleDown, TfiAngleUp} from 'react-icons/tfi';
 import {BiLike, BiDislike} from 'react-icons/bi';
 import {Collapse} from 'react-collapse';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import './Comment.css';
 import type {CommentJson} from '../App';
 
@@ -22,7 +22,8 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
     const replies = comments.filter(
         (reply) => comment.comment_id === reply.reply_id
     );
-    const relativePostDate = moment.utc(postdate).fromNow();
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const relativePostDate = moment.utc(new Date(postdate)).tz(timezone).fromNow();
     return (
         <div className="Comment">
             <div className="Card">
