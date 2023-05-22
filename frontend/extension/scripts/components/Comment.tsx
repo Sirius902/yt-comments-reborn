@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {TfiAngleDown, TfiAngleUp} from 'react-icons/tfi';
+import {BiLike, BiDislike} from 'react-icons/bi';
 import {Collapse} from 'react-collapse';
 import moment from 'moment';
 import './Comment.css';
@@ -32,11 +33,26 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
                 <div className="msg">{message}</div>
             </div>
             <div className="footer">
+                <button className="like">
+                    <BiLike></BiLike>
+                </button>
+                <button className="dislike">
+                    <BiDislike></BiDislike>
+                </button>
                 <button className="replyBtn">Reply</button>
             </div>
-            <button className="replyChain" onClick={onClick}>
-                {expanded ? <TfiAngleUp /> : <TfiAngleDown />}
-            </button>
+            {replies.length > 0 ? (
+                <div className="replyFeatures">
+                    <button className="replyChain" onClick={onClick}>
+                        {expanded ? <TfiAngleUp /> : <TfiAngleDown />}
+                    </button>
+                    {replies.length > 1 ? (
+                        <p className="replyCounter">{replies.length} replies</p>
+                    ) : (
+                        <p className="replyCounter">{replies.length} reply</p>
+                    )}
+                </div>
+            ) : null}
             <div>
                 <Collapse isOpened={expanded}>
                     <div className="replies">

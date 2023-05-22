@@ -139,7 +139,10 @@ const App: React.FC<Props> = ({videoId, token}) => {
     const topLevelComments = comments?.filter(
         (comment) => comment.reply_id === null
     );
-
+    topLevelComments?.sort(
+        (a, b) =>
+            new Date(b.postdate).getTime() - new Date(a.postdate).getTime()
+    );
     return (
         <div className="App">
             <div className="container">
