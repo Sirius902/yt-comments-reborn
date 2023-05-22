@@ -21,3 +21,11 @@ CREATE TABLE Comments (
     vid_id CHAR(11) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
+
+CREATE TABLE Likes (
+    comment_id UUID,
+    user_id UUID,
+    FOREIGN KEY (comment_id) REFERENCES Comments(comment_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    PRIMARY KEY (comment_id, user_id)
+);
