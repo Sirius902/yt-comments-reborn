@@ -23,7 +23,10 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
         (reply) => comment.comment_id === reply.reply_id
     );
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const relativePostDate = moment.utc(new Date(postdate)).tz(timezone).fromNow();
+    const relativePostDate = moment
+        .utc(new Date(postdate))
+        .tz(timezone)
+        .fromNow();
     return (
         <div className="Comment">
             <div className="Card">
@@ -40,18 +43,24 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
                 <button className="dislike">
                     <BiDislike></BiDislike>
                 </button>
-                <button className="replyBtn">Reply</button>
+                <button className="replyBtn">
+                    Reply
+                </button>
             </div>
             {replies.length > 0 ? (
                 <div className="replyFeatures">
                     <button className="replyChain" onClick={onClick}>
-                        {expanded ? <TfiAngleUp /> : <TfiAngleDown />}
+                        {expanded ? <TfiAngleUp className='replyArrow'/> : <TfiAngleDown className='replyArrow'/>}
+                        {replies.length > 1 ? (
+                            <p className="replyCounter">
+                                {replies.length} replies
+                            </p>
+                        ) : (
+                            <p className="replyCounter">
+                                {replies.length} reply
+                            </p>
+                        )}
                     </button>
-                    {replies.length > 1 ? (
-                        <p className="replyCounter">{replies.length} replies</p>
-                    ) : (
-                        <p className="replyCounter">{replies.length} reply</p>
-                    )}
                 </div>
             ) : null}
             <div>

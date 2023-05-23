@@ -81,12 +81,14 @@
 }
 
 .Comment button.replyChain {
+    display: flex;
+    gap: 5px;
     color: #3ea6ff;
     font-size: 14px;
     padding: 0.25em;
     margin-left: 10px;
     background: none;
-    border-radius: 50%;
+    border-radius: 25px;
     border: none;
 }
 
@@ -96,6 +98,10 @@
 
 .Comment button.replyChain:active {
     background: rgba(128, 147, 185, 0.25);
+}
+
+.Comment .replyArrow {
+    margin-top: 5px;
 }
 
 .Comment .replyCounter {
