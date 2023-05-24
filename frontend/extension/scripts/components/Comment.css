@@ -63,6 +63,29 @@
     background-color: rgba(128, 147, 185, 0.25);
 }
 
+.Comment .replyInput {
+    width: 100%;
+    margin: 0px 2px;
+    padding: 5px;
+}
+
+.Comment .replyInputButtons {
+    display: flex;
+    gap: 3px;
+    float: right;
+}
+.Comment button.replyClearBtn {
+    margin: 0px 2px;
+    padding: 5px;
+}
+
+.Comment button.replySubmitBtn {
+    color: #fff;
+    background-color: #065fd4;
+    margin: 0px 2px;
+    padding: 5px;
+}
+
 .Comment button.replyBtn {
     color: #fff;
     background-color: transparent;

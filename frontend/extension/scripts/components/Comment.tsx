@@ -12,11 +12,25 @@ export interface Props {
 }
 
 const Comment: React.FC<Props> = ({comments, comment}) => {
+    const replyBox = React.useRef<HTMLTextAreaElement>(null);
     const [expanded, setExpanded] = useState(false);
+    const [input, setInput] = useState(false);
+
     const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         setExpanded(!expanded);
         e.preventDefault();
     };
+
+    const createReplyInput = (e: React.MouseEvent<HTMLButtonElement>) => {
+        setInput(!input);
+        e.preventDefault();
+    };
+
+    const clearReplyInput = (e: React.MouseEvent<HTMLButtonElement>) => {
+        setInput(false);
+        e.preventDefault();
+    };
+
     const {name, comment: message, postdate} = comment;
     /** Generates a CommentJson[] of all replies to a comment */
     const replies = comments.filter(
@@ -43,14 +57,39 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
                 <button className="dislike">
                     <BiDislike></BiDislike>
                 </button>
-                <button className="replyBtn">
+                <button className="replyBtn" onClick={createReplyInput}>
                     Reply
                 </button>
+            </div>
+            <div>
+                {input ? (
+                    <form>
+                        <textarea
+                            className="replyInput"
+                            placeholder="Add a reply..."
+                            ref={replyBox}
+                        ></textarea>
+                        <div className="replyInputButtons">
+                            <button
+                                className="replyClearBtn"
+                                onClick={clearReplyInput}
+                            >
+                                Cancel
+                            </button>
+                            {/* Create reply submission function */}
+                            <button className="replySubmitBtn">Comment</button>
+                        </div>
+                    </form>
+                ) : null}
             </div>
             {replies.length > 0 ? (
                 <div className="replyFeatures">
                     <button className="replyChain" onClick={onClick}>
-                        {expanded ? <TfiAngleUp className='replyArrow'/> : <TfiAngleDown className='replyArrow'/>}
+                        {expanded ? (
+                            <TfiAngleUp className="replyArrow" />
+                        ) : (
+                            <TfiAngleDown className="replyArrow" />
+                        )}
                         {replies.length > 1 ? (
                             <p className="replyCounter">
                                 {replies.length} replies
