@@ -2,28 +2,14 @@ import type {NextFunction, Request, Response} from 'express';
 import * as db from '../db';
 import type {AuthUser, Credentials} from '../types';
 import type {ParamsDictionary} from 'express-serve-static-core';
-import fetch from 'node-fetch';
 import jwt from 'jsonwebtoken';
 import fss from 'node:fs';
-
-const authUrl = 'https://www.googleapis.com/oauth2/v3/userinfo';
+import {getProvider} from '../authProvider';
 
 const secrets = (() => {
     const buffer = fss.readFileSync('./secrets.json', 'utf-8');
     return JSON.parse(buffer) as {accessToken: string};
 })();
-
-type UserInfo = {
-    sub: string;
-    name: string;
-    given_name: string;
-    family_name: string;
-    picture: string;
-    email: string;
-    email_verified: boolean;
-    locale: string;
-    hd: string;
-};
 
 export interface AuthRequest<P = ParamsDictionary, Res = unknown, Req = unknown>
     extends Request<P, Res, Req> {
@@ -34,37 +20,18 @@ export async function login(
     req: Request<ParamsDictionary, AuthUser | string, Credentials>,
     res: Response<AuthUser | string>
 ) {
-    const userInfoRes = await fetch(
-        `${authUrl}?access_token=${req.body.token}`
-    );
-    if (!userInfoRes.ok) {
+    const authInfo = await getProvider().authenticate(req.body.token);
+    if (authInfo === null) {
         res.status(401).send('Invalid token');
         return;
     }
 
-    // TODO: get rid of cast to any, this is a horrible way to check if the
-    // object has required properties
-    const userInfoJson = (await userInfoRes.json()) as {
-        name?: string;
-        email: string;
-        picture?: string;
-    };
-    if (
-        userInfoJson.name == null ||
-        userInfoJson.email == null ||
-        userInfoJson.picture == null
-    ) {
-        res.status(401).send('Invalid token');
-        return;
-    }
-
-    const userInfo = userInfoJson as UserInfo;
     const userId = await (async () => {
         try {
-            const user = await db.getUser(userInfo.email);
+            const user = await db.getUser(authInfo.email);
             return user.user_id;
         } catch (_) {
-            const user = await db.createUser(userInfo);
+            const user = await db.createUser(authInfo);
             return user.user_id;
         }
     })();

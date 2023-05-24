@@ -1,8 +1,13 @@
+import 'dotenv/config';
+process.env.POSTGRES_DB = 'test';
+
 import {it, beforeAll, afterAll} from 'vitest';
 import http from 'node:http';
 import app from '../app';
 import * as db from './db';
 import supertest from 'supertest';
+import {DummyAuthProvider, setProvider} from '../authProvider';
+import {User} from '../types';
 
 let server: http.Server | null = null;
 let request: supertest.SuperTest<supertest.Test> | null = null;
@@ -24,6 +29,7 @@ function getRequest() {
 }
 
 beforeAll(async () => {
+    setProvider(new DummyAuthProvider());
     server = http.createServer(app);
     server.listen();
     request = supertest(server);
@@ -37,6 +43,20 @@ afterAll(async () => {
     await db.shutdown();
 });
 
-it('No token fails to login', async () => {
-    await getRequest().get('/v0/login/').expect(405);
+it('Test user does not exist before creation', async ({expect}) => {
+    const res = await getRequest().get('/v0/user/');
+    const users = res.body as User[];
+    expect(users.find((user) => user.name === 'Bob Tester')).toBeUndefined();
+});
+
+it('Login works', async ({expect}) => {
+    await getRequest().post('/v0/login/').send({token: 'auth'}).expect(200);
+
+    const res = await getRequest().get('/v0/user/');
+    const users = res.body as User[];
+    expect(users.find((user) => user.name === 'Bob Tester')).toBeTruthy();
+});
+
+it('Invalid token fails to login', async () => {
+    await getRequest().post('/v0/login/').send({token: 'letmein'}).expect(401);
 });
