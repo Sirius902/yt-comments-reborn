@@ -93,17 +93,21 @@ export async function getReplies(commentId: string) {
 }
 
 export async function changeLikes(commentId: string,userId: string){
-    const select = `IF (SELECT (l.comment_id, l.user_id) FROM Likes l
-    WHERE ($1, $2) IS NOT DISTINCT FROM
-    l.comment_id, l.user_id) 
-THEN
-DELETE ((l.comment_id, l.user_id) FROM Likes l 
-        WHERE ($1, $2) IS NOT DISTINCT FROM
-               l.comment_id, l.user_id)
-ELSE 
-    INSERT INTO Likes VALUES
-        ($1, $2);
-END IF;`;
+    const select = `
+        IF (SELECT (l.comment_id, l.user_id) 
+        FROM Likes l
+            WHERE ($1, $2) IS NOT DISTINCT FROM
+            l.comment_id, l.user_id) 
+        THEN
+        DELETE ((l.comment_id, l.user_id) 
+        FROM Likes l 
+            WHERE ($1, $2) IS NOT DISTINCT FROM
+                l.comment_id, l.user_id)
+        ELSE 
+        INSERT INTO Likes VALUES
+            ($1, $2);
+        END IF;
+        `;
         const {rows} = await pool.query({
             text: select,
             values:[commentId,userId]
@@ -111,7 +115,27 @@ END IF;`;
 }
 
 export async function getLikes(commentId: string){
-    const select = `SELECT COUNT (*) FROM Likes WHERE comment_id = $1`
+    const select = `
+        SELECT COUNT (*) 
+        FROM Likes l 
+            WHERE l.comment_id = $1 AND 
+            l.like_bool = True
+        `;
+    const {rows} = await pool.query({
+        text: select,
+        values: [commentId]
+    });
+    console.log(typeof(rows))
+    return rows[0] as number
+}
+
+export async function getDislikes(commentId: string){
+    const select = `
+        SELECT COUNT (*) 
+        FROM Likes l 
+            WHERE l.comment_id = $1 AND
+            l.like_bool = False
+        `;
     const {rows} = await pool.query({
         text: select,
         values: [commentId]
