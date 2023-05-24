@@ -3,9 +3,7 @@ import cors from 'cors';
 import yaml from 'js-yaml';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'node:fs';
-import path from 'node:path';
 import {middleware} from 'express-openapi-validator';
-import {fileURLToPath} from 'node:url';
 import * as auth from './endpoint/auth';
 import * as user from './endpoint/user';
 import * as comment from './endpoint/comment';
@@ -17,9 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
-const apiSpec = path.join(dirname, '../api/openapi.yaml');
+const apiSpec = './api/openapi.yaml';
 
 const apiDoc = yaml.load(fs.readFileSync(apiSpec, 'utf-8')) as object;
 app.use('/v0/api-docs', swaggerUi.serve, swaggerUi.setup(apiDoc));

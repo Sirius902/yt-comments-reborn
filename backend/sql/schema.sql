@@ -1,6 +1,10 @@
 DROP SCHEMA IF EXISTS backend_reborn CASCADE;
 CREATE SCHEMA backend_reborn;
 
+DROP TABLE IF EXISTS Likes;
+DROP TABLE IF EXISTS Comments;
+DROP TABLE IF EXISTS Users;
+
 CREATE TABLE Users (
     user_id UUID UNIQUE PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(320) UNIQUE NOT NULL,

@@ -4,20 +4,12 @@ import type {AuthUser, Credentials} from '../types';
 import type {ParamsDictionary} from 'express-serve-static-core';
 import fetch from 'node-fetch';
 import jwt from 'jsonwebtoken';
-import {fileURLToPath} from 'node:url';
-import path from 'node:path';
 import fss from 'node:fs';
 
 const authUrl = 'https://www.googleapis.com/oauth2/v3/userinfo';
 
 const secrets = (() => {
-    const filename = fileURLToPath(import.meta.url);
-    const dirname = path.dirname(filename);
-    console.log(dirname);
-    const buffer = fss.readFileSync(
-        path.join(dirname, '../secrets.json'),
-        'utf-8'
-    );
+    const buffer = fss.readFileSync('./secrets.json', 'utf-8');
     return JSON.parse(buffer) as {accessToken: string};
 })();
 
