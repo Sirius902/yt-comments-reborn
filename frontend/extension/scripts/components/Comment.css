@@ -9,46 +9,131 @@
     display: grid;
     grid-template-columns: auto;
     margin: 0.5rem;
-    border-bottom: 1px solid #eee;
+    /* border-bottom: 1px solid #eee; */
 }
 
 .Comment .msg {
-    margin: 5px 15px;
+    margin-top: 5px;
     text-align: left;
+}
+
+.Comment .header {
+    display: flex;
+    align-items: center;
 }
 
 .Comment .userName {
     font-weight: bold;
 }
 
-.Comment button.replyBtn {
+.Comment .date {
     color: #aaa;
+    margin-top: 1.5px;
+    margin-left: 10px;
+}
+
+.Comment .footer {
+    display: flex;
+    gap: 5px;
+}
+
+.Comment button.like {
+    color: #fff;
+    font-size: 15px;
+    background-color: transparent;
+    margin: 0px 2px;
+    padding: 5px;
+}
+
+.Comment button.like:hover {
+    color: #888;
+    background-color: rgba(128, 147, 185, 0.25);
+}
+
+.Comment button.dislike {
+    color: #fff;
+    font-size: 15px;
+    background-color: transparent;
+    margin: 0px 2px;
+    padding: 5px;
+}
+
+.Comment button.dislike:hover {
+    color: #888;
+    background-color: rgba(128, 147, 185, 0.25);
+}
+
+.Comment .replyInput {
+    width: 100%;
+    margin: 0px 2px;
+    padding: 5px;
+}
+
+.Comment .replyInputButtons {
+    display: flex;
+    gap: 3px;
+    float: right;
+}
+.Comment button.replyClearBtn {
+    margin: 0px 2px;
+    padding: 5px;
+}
+
+.Comment button.replySubmitBtn {
+    color: #fff;
+    background-color: #065fd4;
+    margin: 0px 2px;
+    padding: 5px;
+}
+
+.Comment button.replyBtn {
+    color: #fff;
     background-color: transparent;
     padding: 5px 7px;
 }
 
 .Comment button.replyBtn:hover {
     color: #888;
-    background-color: #eee;
+    background-color: rgba(128, 147, 185, 0.25);
+}
+
+.Comment .replyFeatures {
+    display: flex;
+    align-items: center;
+    gap: 3px;
 }
 
 .Comment button.replyChain {
+    display: flex;
+    gap: 5px;
     color: #3ea6ff;
-    font-size: 20px;
+    font-size: 14px;
     padding: 0.25em;
     margin-left: 10px;
     background: none;
-    border-radius: 50%;
+    border-radius: 25px;
     border: none;
 }
 
 .Comment button.replyChain:hover {
-    font-size: 20px;
     background: rgba(62, 166, 187, 0.25);
 }
 
 .Comment button.replyChain:active {
     background: rgba(128, 147, 185, 0.25);
+}
+
+.Comment .replyArrow {
+    margin-top: 5px;
+}
+
+.Comment .replyCounter {
+    color: #3ea6ff;
+    padding: 0.25em;
+    background: none;
+    border-radius: 50%;
+    border: none;
+    margin-top: 1px;
 }
 
 .Comment svg {
