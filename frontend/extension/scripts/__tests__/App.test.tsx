@@ -9,6 +9,9 @@ import App from '../App';
 const server = setupServer(
     rest.post('http://localhost:3010/v0/login', (_req, res, ctx) => {
         return res(ctx.json({accessToken: ''}));
+    }),
+    rest.get('http://localhost:3010/v0/comment', (_req, res, ctx) => {
+        return res(ctx.json([]));
     })
 );
 
