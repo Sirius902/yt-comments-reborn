@@ -51,7 +51,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
         });
         const res = await fetch(request);
         if (res.ok) {
-            return (await res.json() as {access_token: string}).access_token
+            return ((await res.json()) as {access_token: string}).access_token;
         } else {
             res.json().then((json) => console.log(json));
         }
@@ -90,7 +90,8 @@ const App: React.FC<Props> = ({videoId, token}) => {
             method: 'POST',
             headers: {
                 [`Authorization`]: `Bearer ${accessToken}`,
-                [`Content-Type`]: 'application/json'},
+                [`Content-Type`]: 'application/json',
+            },
             body: JSON.stringify(comment),
         });
         const res = await fetch(request);
