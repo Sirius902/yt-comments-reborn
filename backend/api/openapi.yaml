@@ -103,31 +103,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /reply:
-    get:
-      description: Reply Endpoint
-      parameters:
-        - in: query
-          name: comment_id
-          schema:
-            $ref: '#/components/schemas/CommentId'
-          required: true
-      responses:
-        200:
-          description: Reply Response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Comment'
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
 components:
   schemas:
     Error:
