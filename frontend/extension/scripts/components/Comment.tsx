@@ -4,14 +4,26 @@ import {BiLike, BiDislike} from 'react-icons/bi';
 import {Collapse} from 'react-collapse';
 import moment from 'moment-timezone';
 import './Comment.css';
+import type {NewCommentJson} from '../App';
 import type {CommentJson} from '../App';
 
 export interface Props {
     comments: CommentJson[];
     comment: CommentJson;
+    accessToken: string;
+    videoId: string;
+    refetch: () => void;
 }
 
-const Comment: React.FC<Props> = ({comments, comment}) => {
+const backendUrl = 'http://localhost:3010';
+
+const Comment: React.FC<Props> = ({
+    comments,
+    comment,
+    accessToken,
+    videoId,
+    refetch,
+}) => {
     const replyBox = React.useRef<HTMLTextAreaElement>(null);
     const [expanded, setExpanded] = useState(false);
     const [input, setInput] = useState(false);
@@ -28,6 +40,40 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
 
     const clearReplyInput = (e: React.MouseEvent<HTMLButtonElement>) => {
         setInput(false);
+        e.preventDefault();
+    };
+
+    const postReply = async (reply: NewCommentJson) => {
+        if (accessToken == null) {
+            console.log(`Access Token is null`);
+            return;
+        }
+        const request = new Request(`${backendUrl}/v0/comment`, {
+            method: 'POST',
+            headers: {
+                [`Authorization`]: `Bearer ${accessToken}`,
+                [`Content-Type`]: 'application/json',
+            },
+            body: JSON.stringify(reply),
+        });
+        const res = await fetch(request);
+        if (res.ok) {
+            refetch();
+            return (await res.json()) as CommentJson;
+        } else {
+            res.json().then((json) => console.log(json));
+        }
+    };
+
+    const addReply = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (replyBox.current !== null && replyBox.current.value !== '') {
+            postReply({
+                comment: (replyBox.current.value = ''),
+                reply_id: comment.comment_id,
+                vid_id: videoId,
+            });
+            replyBox.current.value = '';
+        }
         e.preventDefault();
     };
 
@@ -77,7 +123,12 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
                                 Cancel
                             </button>
                             {/* Create reply submission function */}
-                            <button className="replySubmitBtn">Comment</button>
+                            <button
+                                className="replySubmitBtn"
+                                onClick={addReply}
+                            >
+                                Reply
+                            </button>
                         </div>
                     </form>
                 ) : null}
@@ -106,7 +157,13 @@ const Comment: React.FC<Props> = ({comments, comment}) => {
                 <Collapse isOpened={expanded}>
                     <div className="replies">
                         {replies.map((reply) => (
-                            <Comment comments={comments} comment={reply} />
+                            <Comment
+                                comments={comments}
+                                comment={reply}
+                                accessToken={accessToken}
+                                videoId={videoId}
+                                refetch={refetch}
+                            />
                         ))}
                     </div>
                 </Collapse>

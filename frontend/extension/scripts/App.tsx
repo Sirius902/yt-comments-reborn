@@ -158,6 +158,11 @@ const App: React.FC<Props> = ({videoId, token}) => {
         (a, b) =>
             new Date(b.postdate).getTime() - new Date(a.postdate).getTime()
     );
+    const refetch = () => {
+        forceRefetchComments();
+    };
+    const shouldRender =
+        topLevelComments == null || comments == null || accessToken == null;
     return (
         <div className="App">
             <div className="container">
@@ -178,11 +183,17 @@ const App: React.FC<Props> = ({videoId, token}) => {
                 </form>
             </div>
             <div>
-                {topLevelComments == null || comments == null ? (
+                {shouldRender ? (
                     <div>{errorMessage}</div>
                 ) : (
                     topLevelComments.map((comment) => (
-                        <Comment comments={comments} comment={comment} />
+                        <Comment
+                            comments={comments}
+                            comment={comment}
+                            accessToken={accessToken}
+                            videoId={videoId}
+                            refetch={refetch}
+                        />
                     ))
                 )}
             </div>
