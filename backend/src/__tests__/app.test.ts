@@ -7,7 +7,7 @@ import app from '../app';
 import * as db from './db';
 import supertest from 'supertest';
 import {DummyAuthProvider, setProvider} from '../authProvider';
-import {User} from '../types';
+import {User,Comment} from '../types';
 
 let server: http.Server | null = null;
 let request: supertest.SuperTest<supertest.Test> | null = null;
@@ -60,3 +60,12 @@ it('Login works', async ({expect}) => {
 it('Invalid token fails to login', async () => {
     await getRequest().post('/v0/login/').send({token: 'letmein'}).expect(401);
 });
+
+it('Get comments on video', async ({expect})=>{
+    const res = await getRequest().get('/v0/comment/t-Nw9oz-U6M');
+    const comments = res.body as Comment[];
+    expect(comments)
+});
+
+it('Get comments on video that does not exist');
+it('Get comments on invalid video ID;')
