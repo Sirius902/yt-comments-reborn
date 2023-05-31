@@ -19,7 +19,7 @@ CREATE TABLE Comments (
     reply_id UUID, 
     user_id UUID,
     comment VARCHAR(8192) NOT NULL,
-    postdate timestamp NOT NULL,
+    postdate TIMESTAMPTZ NOT NULL,
     -- Video IDs are not guaranteed to be 11 characters but in YouTube's current
     -- implementation that is the case. So this is probably fine?
     vid_id CHAR(11) NOT NULL,
@@ -29,6 +29,7 @@ CREATE TABLE Comments (
 CREATE TABLE Likes (
     comment_id UUID,
     user_id UUID,
+    like_bool BOOLEAN NOT NULL,
     FOREIGN KEY (comment_id) REFERENCES Comments(comment_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     PRIMARY KEY (comment_id, user_id)

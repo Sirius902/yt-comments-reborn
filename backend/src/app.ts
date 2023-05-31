@@ -7,7 +7,7 @@ import {middleware} from 'express-openapi-validator';
 import * as auth from './endpoint/auth';
 import * as user from './endpoint/user';
 import * as comment from './endpoint/comment';
-import * as reply from './endpoint/reply';
+import * as likes from './endpoint/likes';
 import {respondWithError} from './util';
 
 const app = express();
@@ -28,14 +28,14 @@ app.use(
     })
 );
 
+app.put('/v0/like/:id', auth.check, respondWithError(likes.put));
+
 app.post('/v0/login', respondWithError(auth.login));
 
 app.get('/v0/user', respondWithError(user.get));
 
-app.get('/v0/comment', respondWithError(comment.get));
+app.get('/v0/comment', auth.check, respondWithError(comment.get));
 app.post('/v0/comment', auth.check, respondWithError(comment.post));
-
-app.get('/v0/reply', respondWithError(reply.get));
 
 app.use([
     (err, _req, res, _next) => {
