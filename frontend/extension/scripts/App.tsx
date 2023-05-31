@@ -204,6 +204,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
                             accessToken={accessToken}
                             videoId={videoId}
                             refetch={refetch}
+                            topComment={comment.comment_id}
                         />
                     ))
                 )}
