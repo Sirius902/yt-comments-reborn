@@ -56,6 +56,8 @@ paths:
 
   /comment:
     get:
+      security:
+        - bearerAuth: []
       description: Comment Endpoint
       parameters:
         - in: query
@@ -104,28 +106,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 
   /like/{id}:
-    get:
-      description: Like Endpoint
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-            format: uuid
-          required: true
-      responses:
-        200:
-          description: Like Response
-          content:
-            application/json:
-              schema:
-                type: integer
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
     put:
       security:
         - bearerAuth: []
@@ -137,13 +117,14 @@ paths:
             type: string
             format: uuid
           required: true
+        - in: query
+          name: value
+          schema:
+            type: boolean
+          required: true
       responses:
         200:
           description: Like Response
-          content:
-            application/json:
-              schema:
-                type: integer
         default:
           description: Unexpected Error
           content:
@@ -224,6 +205,14 @@ components:
           format: date-time
         vid_id:
           $ref: '#/components/schemas/VideoId'
+        likes:
+          type: integer
+        dislikes:
+          type: integer
+        is_liked:
+          type: boolean
+        is_disliked:
+          type: boolean
         name:
           type: string
       additionalProperties: false

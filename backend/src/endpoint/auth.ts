@@ -11,8 +11,12 @@ const secrets = (() => {
     return JSON.parse(buffer) as {accessToken: string};
 })();
 
-export interface AuthRequest<P = ParamsDictionary, Res = unknown, Req = unknown>
-    extends Request<P, Res, Req> {
+export interface AuthRequest<
+    P = ParamsDictionary,
+    Res = unknown,
+    Req = unknown,
+    Query = unknown
+> extends Request<P, Res, Req, Query> {
     userId?: string;
 }
 

@@ -1,14 +1,18 @@
-import type {Request, Response} from 'express';
+import type {Response} from 'express';
 import * as db from '../db';
 import type {Comment, CommentInfo} from '../types';
 import type {ParamsDictionary} from 'express-serve-static-core';
 import type {AuthRequest} from './auth';
 
 export async function get(
-    req: Request<ParamsDictionary, unknown, unknown, {vid_id: string}>,
-    res: Response<Comment[]>
+    req: AuthRequest<ParamsDictionary, unknown, unknown, {vid_id: string}>,
+    res: Response<Comment[] | string>
 ) {
-    const comments = await db.getComments(req.query.vid_id);
+    if (req.userId == null) {
+        res.status(500).send('User ID is null');
+        return;
+    }
+    const comments = await db.getComments(req.query.vid_id, req.userId);
     res.status(200).json(comments);
 }
 

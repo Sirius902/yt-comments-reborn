@@ -65,17 +65,41 @@ export async function createComment(userId: string, info: CommentInfo) {
 }
 
 // TODO: Deserialize comment dates.
-export async function getComments(vidId: string) {
+export async function getComments(vidId: string, userId: string) {
     const select = `SELECT c.comment_id, c.reply_id, u.user_id, c.comment,
-            c.postdate, c.vid_id, u.name
-         FROM Comments c, Users u 
+            c.postdate, c.vid_id, u.name,
+            (SELECT COUNT(*)
+                FROM Likes l
+                WHERE l.comment_id = c.comment_id AND like_bool = TRUE
+            ) as likes,
+            (SELECT COUNT(*)
+                FROM Likes l
+                WHERE l.comment_id = c.comment_id AND like_bool = FALSE
+            ) as dislikes,
+            (SELECT COUNT(*)
+                FROM Likes l
+                WHERE l.comment_id = c.comment_id AND l.user_id = $2
+                    AND like_bool = TRUE
+            ) as is_liked,
+            (SELECT COUNT(*)
+                FROM Likes l
+                WHERE l.comment_id = c.comment_id AND l.user_id = $2
+                    AND like_bool = FALSE
+            ) as is_disliked
+         FROM Comments c, Users u
             WHERE c.vid_id = $1 AND
             c.user_id = u.user_id`;
 
     const {rows} = await pool.query({
         text: select,
-        values: [vidId],
+        values: [vidId, userId],
     });
+    for (const row of rows) {
+        row.likes = parseInt(row.likes, 10);
+        row.dislikes = parseInt(row.dislikes, 10);
+        row.is_liked = parseInt(row.is_liked, 10) > 0;
+        row.is_disliked = parseInt(row.is_disliked, 10) > 0;
+    }
     return rows as Comment[];
 }
 
@@ -92,54 +116,30 @@ export async function getReplies(commentId: string) {
     return rows as Comment[];
 }
 
-export async function changeLikes(commentId: string,userId: string){
+export async function changeLikes(
+    commentId: string,
+    userId: string,
+    value: boolean
+) {
     const select = `
-        IF (SELECT (l.comment_id, l.user_id) 
-        FROM Likes l
-            WHERE ($1, $2) IS NOT DISTINCT FROM
-            l.comment_id, l.user_id) 
-        THEN
-        DELETE ((l.comment_id, l.user_id) 
-        FROM Likes l 
-            WHERE ($1, $2) IS NOT DISTINCT FROM
-                l.comment_id, l.user_id)
-        ELSE 
-        INSERT INTO Likes VALUES
-            ($1, $2);
-        END IF;
+    DELETE FROM Likes
+    WHERE comment_id = $1 AND user_id = $2 AND like_bool = $3 RETURNING *
+    `;
+    const {rows} = await pool.query({
+        text: select,
+        values: [commentId, userId, value],
+    });
+
+    if (rows.length === 0) {
+        const insert = `
+        INSERT INTO Likes (comment_id, user_id, like_bool)
+        VALUES ($1, $2, $3)
+        ON CONFLICT (comment_id, user_id)
+            DO UPDATE SET like_bool = $3
         `;
-        const {rows} = await pool.query({
-            text: select,
-            values:[commentId,userId]
+        await pool.query({
+            text: insert,
+            values: [commentId, userId, value],
         });
-}
-
-export async function getLikes(commentId: string){
-    const select = `
-        SELECT COUNT (*) 
-        FROM Likes l 
-            WHERE l.comment_id = $1 AND 
-            l.like_bool = True
-        `;
-    const {rows} = await pool.query({
-        text: select,
-        values: [commentId]
-    });
-    console.log(typeof(rows))
-    return rows[0] as number
-}
-
-export async function getDislikes(commentId: string){
-    const select = `
-        SELECT COUNT (*) 
-        FROM Likes l 
-            WHERE l.comment_id = $1 AND
-            l.like_bool = False
-        `;
-    const {rows} = await pool.query({
-        text: select,
-        values: [commentId]
-    });
-    console.log(typeof(rows))
-    return rows[0] as number
+    }
 }

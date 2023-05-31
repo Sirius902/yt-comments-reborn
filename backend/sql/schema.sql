@@ -29,6 +29,7 @@ CREATE TABLE Comments (
 CREATE TABLE Likes (
     comment_id UUID,
     user_id UUID,
+    like_bool BOOLEAN NOT NULL,
     FOREIGN KEY (comment_id) REFERENCES Comments(comment_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     PRIMARY KEY (comment_id, user_id)
