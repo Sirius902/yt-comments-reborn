@@ -68,12 +68,13 @@ const Comment: React.FC<Props> = ({
     const addReply = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (replyBox.current !== null && replyBox.current.value !== '') {
             postReply({
-                comment: (replyBox.current.value = ''),
+                comment: replyBox.current.value,
                 reply_id: comment.comment_id,
                 vid_id: videoId,
             });
             replyBox.current.value = '';
         }
+        setInput(false);
         e.preventDefault();
     };
 
@@ -82,11 +83,7 @@ const Comment: React.FC<Props> = ({
     const replies = comments.filter(
         (reply) => comment.comment_id === reply.reply_id
     );
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const relativePostDate = moment
-        .utc(new Date(postdate))
-        .tz(timezone)
-        .fromNow();
+    const relativePostDate = moment.utc(postdate).fromNow();
     return (
         <div className="Comment">
             <div className="Card">

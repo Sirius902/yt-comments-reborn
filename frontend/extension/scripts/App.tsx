@@ -15,6 +15,10 @@ export type CommentJson = {
     comment: string;
     postdate: string;
     vid_id: string;
+    likes: number;
+    dislikes: number;
+    is_liked: boolean;
+    is_disliked: boolean;
 };
 
 export type NewCommentJson = {
@@ -63,8 +67,15 @@ const App: React.FC<Props> = ({videoId, token}) => {
      * setComments() is called with the comments as a CommentJson[]
      */
     const fetchComments = async () => {
+        if (accessToken == null) {
+            console.log(`Access Token is null`);
+            return;
+        }
         const res = await fetch(`${backendUrl}/v0/comment?vid_id=${videoId}`, {
             method: 'GET',
+            headers: {
+                [`Authorization`]: `Bearer ${accessToken}`,
+            },
         });
         if (res.ok) {
             res.json().then((json) => setComments(json as CommentJson[]));
@@ -113,7 +124,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
 
     useEffect(() => {
         fetchComments();
-    }, [refetchComments]);
+    }, [refetchComments, accessToken]);
 
     /**
      * Called upon clicking submitBtn
