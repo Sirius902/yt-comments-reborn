@@ -1,6 +1,3 @@
-import 'dotenv/config';
-process.env.POSTGRES_DB = 'test';
-
 import {it, beforeAll, afterAll} from 'vitest';
 import http from 'node:http';
 import app from '../app';
