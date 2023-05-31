@@ -40,6 +40,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
     const [errorMessage, setErrorMessage] = useState('Loading...');
     const [comments, setComments] = useState<CommentJson[] | null>(null);
     const [refetchComments, forceRefetchComments] = useReducer((x) => x + 1, 0);
+    const [sortBy, setSortBy] = useState<'Date' | 'Likes'>('Date');
 
     // TODO: Use this function to send Auth Token to backend
     /**
@@ -165,17 +166,38 @@ const App: React.FC<Props> = ({videoId, token}) => {
     const topLevelComments = comments?.filter(
         (comment) => comment.reply_id === null
     );
-    topLevelComments?.sort(
-        (a, b) =>
-            new Date(b.postdate).getTime() - new Date(a.postdate).getTime()
-    );
+    topLevelComments?.sort((a, b) => {
+        if (sortBy === 'Date') {
+            return (
+                new Date(b.postdate).getTime() - new Date(a.postdate).getTime()
+            );
+        } else {
+            return b.likes - a.likes;
+        }
+    });
     const refetch = () => {
         forceRefetchComments();
     };
     const shouldRender =
         topLevelComments == null || comments == null || accessToken == null;
+
+    const sorts = ['Date', 'Likes'] as const;
+
     return (
         <div className="App">
+            <div className="sort">
+                <span>Sort By: </span>
+                {sorts.map((sort) => (
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={sortBy === sort}
+                            onClick={() => setSortBy(sort)}
+                        />
+                        {sort}
+                    </label>
+                ))}
+            </div>
             <div className="container">
                 <form>
                     <textarea

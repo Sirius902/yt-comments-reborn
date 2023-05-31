@@ -46,6 +46,13 @@
     transition: 0.5s;
 }
 
+.App .sort {
+    display: flex;
+    gap: 5px;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
 @media (prefers-color-scheme: dark) {
     .App,
     .App textarea {
