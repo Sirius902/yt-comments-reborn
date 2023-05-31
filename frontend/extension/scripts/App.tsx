@@ -15,6 +15,7 @@ export type CommentJson = {
     comment: string;
     postdate: string;
     vid_id: string;
+    profile_picture: string;
 };
 
 export type NewCommentJson = {
