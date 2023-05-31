@@ -18,6 +18,7 @@ export interface Props {
     accessToken: string;
     videoId: string;
     refetch: () => void;
+    topComment: string;
 }
 
 const backendUrl = 'http://localhost:3010';
@@ -28,6 +29,7 @@ const Comment: React.FC<Props> = ({
     accessToken,
     videoId,
     refetch,
+    topComment,
 }) => {
     const replyBox = React.useRef<HTMLTextAreaElement>(null);
     const [expanded, setExpanded] = useState(false);
@@ -74,7 +76,7 @@ const Comment: React.FC<Props> = ({
         if (replyBox.current !== null && replyBox.current.value !== '') {
             postReply({
                 comment: replyBox.current.value,
-                reply_id: comment.comment_id,
+                reply_id: topComment,
                 vid_id: videoId,
             });
             replyBox.current.value = '';
@@ -107,6 +109,7 @@ const Comment: React.FC<Props> = ({
         };
 
     const {name, comment: message, postdate} = comment;
+
     /** Generates a CommentJson[] of all replies to a comment */
     const replies = comments.filter(
         (reply) => comment.comment_id === reply.reply_id
@@ -145,7 +148,9 @@ const Comment: React.FC<Props> = ({
                             className="replyInput"
                             placeholder="Add a reply..."
                             ref={replyBox}
-                        ></textarea>
+                        >
+                            {comment.reply_id != null ? `@${name} ` : null}
+                        </textarea>
                         <div className="replyInputButtons">
                             <button
                                 className="replyClearBtn"
@@ -153,7 +158,6 @@ const Comment: React.FC<Props> = ({
                             >
                                 Cancel
                             </button>
-                            {/* Create reply submission function */}
                             <button
                                 className="replySubmitBtn"
                                 onClick={addReply}
@@ -194,6 +198,7 @@ const Comment: React.FC<Props> = ({
                                 accessToken={accessToken}
                                 videoId={videoId}
                                 refetch={refetch}
+                                topComment={comment.comment_id}
                             />
                         ))}
                     </div>
