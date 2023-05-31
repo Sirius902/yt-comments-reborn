@@ -215,6 +215,8 @@ components:
           type: boolean
         name:
           type: string
+        profile_picture:
+          type: string
       additionalProperties: false
 
     VideoId:

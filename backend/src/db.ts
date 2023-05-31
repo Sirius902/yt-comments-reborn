@@ -67,7 +67,7 @@ export async function createComment(userId: string, info: CommentInfo) {
 // TODO: Deserialize comment dates.
 export async function getComments(vidId: string, userId: string) {
     const select = `SELECT c.comment_id, c.reply_id, u.user_id, c.comment,
-            c.postdate, c.vid_id, u.name,
+            c.postdate, c.vid_id, u.name, u.picture as profile_picture,
             (SELECT COUNT(*)
                 FROM Likes l
                 WHERE l.comment_id = c.comment_id AND like_bool = TRUE

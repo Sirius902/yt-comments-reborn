@@ -19,6 +19,7 @@ export type CommentJson = {
     dislikes: number;
     is_liked: boolean;
     is_disliked: boolean;
+    profile_picture: string;
 };
 
 export type NewCommentJson = {

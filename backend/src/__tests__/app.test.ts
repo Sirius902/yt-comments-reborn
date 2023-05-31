@@ -100,13 +100,21 @@ it('Get comments on video that does not exist', async ({expect}) => {
 it('Get comments on invalid video ID', async () => {
     const authres = await getRequest().post('/v0/login/').send({token: 'auth'});
     const authed = authres.body;
+<<<<<<< HEAD
     const res = await getRequest()
+=======
+    await getRequest()
+>>>>>>> main
         .get('/v0/comment?vid_id=aaaaaaabbaaa')
         .auth(authed.access_token, {type: 'bearer'})
         .expect(400);
 });
 
+<<<<<<< HEAD
 it('Post comment without authorization', async ({expect}) => {
+=======
+it('Post comment without authorization', async () => {
+>>>>>>> main
     const sentComment = {
         reply_id: '',
         comment: 'hello',
@@ -115,7 +123,11 @@ it('Post comment without authorization', async ({expect}) => {
     await getRequest().post('/v0/comment').send(sentComment).expect(401);
 });
 
+<<<<<<< HEAD
 it('Post comment with authorization to invalid video id', async ({expect}) => {
+=======
+it('Post comment with authorization to invalid video id', async () => {
+>>>>>>> main
     const sentComment = {
         reply_id: null,
         comment: 'hello',
@@ -131,7 +143,11 @@ it('Post comment with authorization to invalid video id', async ({expect}) => {
         .expect(400);
 });
 
+<<<<<<< HEAD
 it('Post comment with authorization to known video id', async ({expect}) => {
+=======
+it('Post comment with authorization to known video id', async () => {
+>>>>>>> main
     const sentComment = {
         reply_id: null,
         comment: 'hello',
@@ -147,7 +163,11 @@ it('Post comment with authorization to known video id', async ({expect}) => {
         .expect(200);
 });
 
+<<<<<<< HEAD
 it('Post comment with authorization to new video id', async ({expect}) => {
+=======
+it('Post comment with authorization to new video id', async () => {
+>>>>>>> main
     const sentComment = {
         reply_id: null,
         comment: 'hello',
