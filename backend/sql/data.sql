@@ -302,7 +302,6 @@ In congue. Etiam justo. Etiam pretium iaculis justo.', '2022-09-18T20:32:41Z', '
 
 insert into Likes (comment_id, user_id, like_bool) values ('ca92c661-608a-4fb5-9cce-b818e46343d7', '342762a0-5dd8-4c2b-b8d5-28c9ff9da6b1', true);
 insert into Likes (comment_id, user_id, like_bool) values ('ca92c661-608a-4fb5-9cce-b818e46343d7', '35359762-7a0d-4ef7-b1b3-102da7590b9c', true);
-insert into Likes (comment_id, user_id, like_bool) values ('80d9a54e-7c9d-4820-9aa3-404e5cedd2a7', '92289514-dbd8-4cf4-91a6-2dc9c5ad5ef6', false);
 
 insert into Likes (comment_id, user_id, like_bool) values ('80d9a54e-7c9d-4820-9aa3-404e5cedd2a7', '342762a0-5dd8-4c2b-b8d5-28c9ff9da6b1', true);
 insert into Likes (comment_id, user_id, like_bool) values ('80d9a54e-7c9d-4820-9aa3-404e5cedd2a7', '35359762-7a0d-4ef7-b1b3-102da7590b9c', true);
