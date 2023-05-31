@@ -52,7 +52,6 @@ const Comment: React.FC<Props> = ({
 
     const postReply = async (reply: NewCommentJson) => {
         if (accessToken == null) {
-            console.log(`Access Token is null`);
             return;
         }
         const request = new Request(`${backendUrl}/v0/comment`, {
@@ -88,7 +87,6 @@ const Comment: React.FC<Props> = ({
     const changeLike =
         (value: boolean) => async (_e: React.MouseEvent<HTMLButtonElement>) => {
             if (accessToken == null) {
-                console.log(`Access Token is null`);
                 return;
             }
             const request = new Request(

@@ -53,7 +53,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
             headers: new Headers({
                 [`Content-Type`]: 'application/json',
             }),
-            body: JSON.stringify({token: 'auth'}),
+            body: JSON.stringify({token}),
         });
         const res = await fetch(request);
         if (res.ok) {
@@ -70,7 +70,6 @@ const App: React.FC<Props> = ({videoId, token}) => {
      */
     const fetchComments = async () => {
         if (accessToken == null) {
-            console.log(`Access Token is null`);
             return;
         }
         const res = await fetch(`${backendUrl}/v0/comment?vid_id=${videoId}`, {
@@ -96,7 +95,6 @@ const App: React.FC<Props> = ({videoId, token}) => {
      */
     const postComment = async (comment: NewCommentJson) => {
         if (accessToken == null) {
-            console.log(`Access Token is null`);
             return;
         }
         const request = new Request(`${backendUrl}/v0/comment`, {
@@ -188,16 +186,18 @@ const App: React.FC<Props> = ({videoId, token}) => {
         <div className="App">
             <div className="sort">
                 <span>Sort By: </span>
-                {sorts.map((sort) => (
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={sortBy === sort}
-                            onClick={() => setSortBy(sort)}
-                        />
-                        {sort}
-                    </label>
-                ))}
+                <span>
+                    {sorts.map((sort, i) => (
+                        <label key={i}>
+                            <input
+                                type="checkbox"
+                                checked={sortBy === sort}
+                                onChange={() => setSortBy(sort)}
+                            />
+                            {sort}
+                        </label>
+                    ))}
+                </span>
             </div>
             <div className="container">
                 <form>
