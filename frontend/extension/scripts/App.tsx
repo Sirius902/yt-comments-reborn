@@ -51,7 +51,7 @@ const App: React.FC<Props> = ({videoId, token}) => {
             headers: new Headers({
                 [`Content-Type`]: 'application/json',
             }),
-            body: JSON.stringify({token}),
+            body: JSON.stringify({token: 'auth'}),
         });
         const res = await fetch(request);
         if (res.ok) {

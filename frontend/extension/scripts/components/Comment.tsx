@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import {TfiAngleDown, TfiAngleUp} from 'react-icons/tfi';
-import {BiLike, BiDislike} from 'react-icons/bi';
+import {
+    AiFillDislike,
+    AiFillLike,
+    AiOutlineDislike,
+    AiOutlineLike,
+} from 'react-icons/ai';
 import {Collapse} from 'react-collapse';
 import moment from 'moment-timezone';
 import './Comment.css';
@@ -78,6 +83,29 @@ const Comment: React.FC<Props> = ({
         e.preventDefault();
     };
 
+    const changeLike =
+        (value: boolean) => async (_e: React.MouseEvent<HTMLButtonElement>) => {
+            if (accessToken == null) {
+                console.log(`Access Token is null`);
+                return;
+            }
+            const request = new Request(
+                `${backendUrl}/v0/like/${comment.comment_id}?value=${value}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        [`Authorization`]: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            const res = await fetch(request);
+            if (res.ok) {
+                refetch();
+            } else {
+                res.json().then((json) => console.log(json));
+            }
+        };
+
     const {name, comment: message, postdate} = comment;
     /** Generates a CommentJson[] of all replies to a comment */
     const replies = comments.filter(
@@ -94,12 +122,18 @@ const Comment: React.FC<Props> = ({
                 <div className="msg">{message}</div>
             </div>
             <div className="footer">
-                <button className="like">
-                    <BiLike></BiLike>
+                <button className="like" onClick={changeLike(true)}>
+                    {comment.is_liked ? <AiFillLike /> : <AiOutlineLike />}
                 </button>
-                <button className="dislike">
-                    <BiDislike></BiDislike>
+                <span>{comment.likes}</span>
+                <button className="dislike" onClick={changeLike(false)}>
+                    {comment.is_disliked ? (
+                        <AiFillDislike />
+                    ) : (
+                        <AiOutlineDislike />
+                    )}
                 </button>
+                <span>{comment.dislikes}</span>
                 <button className="replyBtn" onClick={createReplyInput}>
                     Reply
                 </button>
