@@ -43,6 +43,10 @@ afterAll(async () => {
     await db.shutdown();
 });
 
+it('Test invalid URL', async()=>{
+    await request?.get('/v0/fakeurl/').expect(404);
+});
+
 it('Test valid user is found', async ({expect})=>{
     const res = await getRequest().get('/v0/user/');
     const users = res.body as User[];
