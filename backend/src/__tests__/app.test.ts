@@ -72,20 +72,33 @@ it('Invalid token fails to login', async () => {
     await getRequest().post('/v0/login/').send({token: 'letmein'}).expect(401);
 });
 
+it('Get comments without authorization', async()=>{
+    await getRequest().get('/v0/comment?vid_id=t-Nw9oz-U6m').expect(401)
+})
+
 it('Get comments on video', async ({expect})=>{
-    const res = await getRequest().get('/v0/comment?vid_id=t-Nw9oz-U6M');
+    const authres = await getRequest().post('/v0/login/').send({token: 'auth'});
+    const authed = authres.body;
+    const res = await getRequest().get('/v0/comment?vid_id=t-Nw9oz-U6M').auth(authed.access_token,{type:"bearer"});
     const comments = res.body as Comment[];
     expect(comments).toBeDefined();
+    expect(comments.length).toBeGreaterThan(0)
 });
 
 it('Get comments on video that does not exist', async ({expect})=>{
-    const res = await getRequest().get('/v0/comment?vid_id=t-Nw9oz-U6w');
+    const authres = await getRequest().post('/v0/login/').send({token: 'auth'});
+    const authed = authres.body;
+    const res = await getRequest().get('/v0/comment?vid_id=t-Nw9oz-U6w').auth(authed.access_token,{type:"bearer"});
     const comments = res.body as Comment[];
+    expect(comments).toBeDefined();
     expect(comments.length).toBe(0);
 });
 
 it('Get comments on invalid video ID',async()=>{
-    await getRequest().get('/v0/comment?vid_id=ababababababaa').expect(400)
+    const authres = await getRequest().post('/v0/login/').send({token: 'auth'});
+    const authed = authres.body;
+    const res = await getRequest().get('/v0/comment?vid_id=aaaaaaabbaaa').auth(authed.access_token,{type:"bearer"}).expect(400);
+    
 });
 
 it('Post comment without authorization',async({expect})=>{
