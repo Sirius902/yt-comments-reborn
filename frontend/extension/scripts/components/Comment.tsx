@@ -123,11 +123,11 @@ const Comment: React.FC<Props> = ({
                 <div className="msg">{message}</div>
             </div>
             <div className="footer">
-                <button className="like" onClick={changeLike(true)}>
+                <button className="like" aria-label="like" onClick={changeLike(true)}>
                     {comment.is_liked ? <AiFillLike /> : <AiOutlineLike />}
                 </button>
                 <span>{comment.likes}</span>
-                <button className="dislike" onClick={changeLike(false)}>
+                <button className="dislike" aria-label="dislike" onClick={changeLike(false)}>
                     {comment.is_disliked ? (
                         <AiFillDislike />
                     ) : (
@@ -135,7 +135,7 @@ const Comment: React.FC<Props> = ({
                     )}
                 </button>
                 <span>{comment.dislikes}</span>
-                <button className="replyBtn" onClick={createReplyInput}>
+                <button className="replyBtn" aria-label="reply" onClick={createReplyInput}>
                     Reply
                 </button>
             </div>
@@ -143,6 +143,7 @@ const Comment: React.FC<Props> = ({
                 {input ? (
                     <form>
                         <textarea
+                            aria-label="reply-box"
                             className="replyInput"
                             placeholder="Add a reply..."
                             ref={replyBox}
@@ -151,12 +152,14 @@ const Comment: React.FC<Props> = ({
                         </textarea>
                         <div className="replyInputButtons">
                             <button
+                                aria-label="cancel-reply"
                                 className="replyClearBtn"
                                 onClick={clearReplyInput}
                             >
                                 Cancel
                             </button>
                             <button
+                                aria-label="submit-reply"
                                 className="replySubmitBtn"
                                 onClick={addReply}
                             >
@@ -189,8 +192,9 @@ const Comment: React.FC<Props> = ({
             <div>
                 <Collapse isOpened={expanded}>
                     <div className="replies">
-                        {replies.map((reply) => (
+                        {replies.map((reply, i) => (
                             <Comment
+                                key={i}
                                 comments={comments}
                                 comment={reply}
                                 accessToken={accessToken}
