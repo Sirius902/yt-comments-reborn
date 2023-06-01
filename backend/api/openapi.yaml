@@ -8,24 +8,32 @@ info:
 servers:
   - url: http://localhost:3010/v0
 
+# Paths taken when an endpoint is called
 paths:
+  # Path taken when /login endpoint is called
   /login:
+    # Calling the POST /login endpoint in web server
     post:
       description: Login
+      # Require the user to have Credentials
       requestBody:
         description: Credentials
         required: true
         content:
           application/json:
             schema:
+              # Return properties specified in Credentials schema definition
               $ref: '#/components/schemas/Credentials'
       responses:
+        # Auth Token is accepted, return 200 OK
         200:
           description: Auth User Response
           content:
             application/json:
               schema:
+                # Return properties specified in AuthUser schema definition
                 $ref: '#/components/schemas/AuthUser'
+        # Auth Token is invalid/unauthorized, return 401 Forbidden
         401:
           description: Unauthorized
         default:
@@ -33,17 +41,22 @@ paths:
           content:
             application/json:
               schema:
+                # Return properties specified in Error schema definition
                 $ref: '#/components/schemas/Error'
 
+  # Path taken when /user endpoint is called
   /user:
+    # Calling the GET /user endpoint in web server
     get:
       description: User Endpoint
       responses:
+        # Return the user information, 200 OK
         200:
           description: User Response
           content:
             application/json:
               schema:
+                # Return properties specified in User schema definition
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
@@ -52,64 +65,86 @@ paths:
           content:
             application/json:
               schema:
+                # Return properties specified in Error schema definition
                 $ref: '#/components/schemas/Error'
 
+  # Path taken when /comment endpoint is called
   /comment:
+    # Calling the GET /comment endpoint in web server
     get:
+      # Caller must have an authenticated JWT
       security:
         - bearerAuth: []
       description: Comment Endpoint
+      # Pass in vid_id to specify what video the comments should be from
       parameters:
         - in: query
           name: vid_id
           schema:
+            # Return properties specified in VideoId schema definition
             $ref: '#/components/schemas/VideoId'
           required: true
       responses:
+        # Return all comments in the vid_id if user is authenticated and vid_id is valid
         200:
           description: Comment Response
           content:
             application/json:
               schema:
+                # Return properties specified in Comment schema definition
                 type: array
                 items:
                   $ref: '#/components/schemas/Comment'
+        # Return Error as default
         default:
           description: Unexpected Error
           content:
             application/json:
               schema:
+                # Return properties specified in Error schema definition
                 $ref: '#/components/schemas/Error'
+
+    # Calling the POST /comment endpoint in web server
     post:
+      # Poster must have an authenticated JWT
       security:
         - bearerAuth: []
       description: Comment Endpoint
       requestBody:
         description: Request Body
         required: true
+        # Require properties specified in CommentInfo schema definition
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CommentInfo'
       responses:
+        # Post comment to database, return 200 OK
         200:
           description: Comment Response
           content:
             application/json:
               schema:
+                # Return properties specified in Comment schema definition
                 $ref: '#/components/schemas/Comment'
+        # Return Error by default
         default:
           description: Unexpected Error
           content:
             application/json:
               schema:
+                # Return properties specified in Error schema definition
                 $ref: '#/components/schemas/Error'
 
+  # Path taken when /like/{id} endpoint is called
   /like/{id}:
+    # Calling the PUT /like/{id} endpoint in web server
     put:
+      # User putting like must have an authenticated JWT
       security:
         - bearerAuth: []
       description: Like Endpoint
+      # Pass in id and value parameters
       parameters:
         - in: path
           name: id
@@ -123,17 +158,22 @@ paths:
             type: boolean
           required: true
       responses:
+        # Like/Dislike is added to database, return 200 OK
         200:
           description: Like Response
+        # Return Error by default
         default:
           description: Unexpected Error
           content:
             application/json:
               schema:
+                # Return properties specified in Error schema definition
                 $ref: '#/components/schemas/Error'
 
+# Define schema components
 components:
   schemas:
+    # Defines what a web server request should return in the case of an error
     Error:
       properties:
         code:
@@ -141,11 +181,13 @@ components:
           format: int32
         message:
           type: string
+      # All properties are required
       required:
         - code
         - message
       additionalProperties: false
 
+    # Defines what user info properties to return
     User:
       type: object
       properties:
@@ -162,6 +204,7 @@ components:
         picture:
           type: string
           format: uri
+      # All properties are required
       required:
         - user_id
         - name
@@ -169,6 +212,7 @@ components:
         - picture
       additionalProperties: false
 
+    # Defines what properties a POST /comment Request Body should contain
     CommentInfo:
       type: object
       properties:
@@ -184,6 +228,7 @@ components:
           $ref: '#/components/schemas/VideoId'
       additionalProperties: false
 
+    # Defines the properties a GET or POST /comment should return
     Comment:
       type: object
       properties:
@@ -219,15 +264,18 @@ components:
           type: string
       additionalProperties: false
 
+    # Defines the type and length of a vid_id
     VideoId:
       type: string
       minLength: 11
       maxLength: 11
 
+    # Defines the type and format of a comment_id
     CommentId:
       type: string
       format: uuid
 
+    # Defines the type and token required when a user needs to authenticate their credentials
     Credentials:
       type: object
       properties:
@@ -235,6 +283,7 @@ components:
           type: string
       additionalProperties: false
 
+    # Defines the type and token when a user has been authenticated
     AuthUser:
       type: object
       properties:
@@ -242,6 +291,7 @@ components:
           type: string
       additionalProperties: false
 
+  # Defines the Java Web Token (JWT) a user must hold wherever security is necessary
   securitySchemes:
     bearerAuth:
       type: http
