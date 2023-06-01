@@ -22,7 +22,7 @@ paths:
         content:
           application/json:
             schema:
-              # Return properties specified in Credentials schema definition
+              # Require properties specified in Credentials schema definition
               $ref: '#/components/schemas/Credentials'
       responses:
         # Auth Token is accepted, return 200 OK
@@ -81,7 +81,7 @@ paths:
         - in: query
           name: vid_id
           schema:
-            # Return properties specified in VideoId schema definition
+            # Require properties specified in VideoId schema definition
             $ref: '#/components/schemas/VideoId'
           required: true
       responses:
