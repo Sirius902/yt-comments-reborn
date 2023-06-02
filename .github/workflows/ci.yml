@@ -23,6 +23,10 @@ jobs:
         run: npm run lint
       - name: Check Formatted
         run: npm run check-format
+      - name: Start Database Container
+        run: |
+          cd backend
+          sudo docker-compose up -d
       - name: Run Tests
         run: npm run test
       - name: Build
