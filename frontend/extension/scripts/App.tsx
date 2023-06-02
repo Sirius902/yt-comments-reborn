@@ -9,7 +9,7 @@ interface Props {
 
 export type CommentJson = {
     comment_id: string;
-    reply_id: string;
+    reply_id: string | null;
     user_id: string;
     name: string;
     comment: string;
@@ -202,25 +202,35 @@ const App: React.FC<Props> = ({videoId, token}) => {
                 <form>
                     <textarea
                         id="RBcomment"
+                        aria-label="comment-box"
                         placeholder="Add a comment..."
                         ref={commentBox}
                     ></textarea>
                     <div className="btn">
-                        <button id="clearBtn" onClick={clearInput}>
+                        <button
+                            id="clearBtn"
+                            aria-label="cancel-comment"
+                            onClick={clearInput}
+                        >
                             Cancel
                         </button>
-                        <button id="submitBtn" onClick={addComment}>
+                        <button
+                            id="submitBtn"
+                            aria-label="post-comment"
+                            onClick={addComment}
+                        >
                             Comment
                         </button>
                     </div>
                 </form>
             </div>
-            <div>
+            <div aria-label="comment-list" role="list">
                 {shouldRender ? (
-                    <div>{errorMessage}</div>
+                    <div key="error">{errorMessage}</div>
                 ) : (
-                    topLevelComments.map((comment) => (
+                    topLevelComments.map((comment, i) => (
                         <Comment
+                            key={i}
                             comments={comments}
                             comment={comment}
                             accessToken={accessToken}
