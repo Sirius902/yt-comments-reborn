@@ -9,7 +9,7 @@
     "format:base": "prettier --config ../.prettierrc .",
     "check-format": "npm run format:base -- --check",
     "format": "npm run format:base -- --write",
-    "test": "vitest"
+    "test": "vitest --run"
   },
   "keywords": [],
   "author": "",
