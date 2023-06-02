@@ -1,17 +1,32 @@
 import fetch from 'node-fetch';
 
+/**
+ * User information retrieved through an access token.
+ */
 export type AuthInfo = {
     name: string;
     email: string;
     picture: string;
 };
 
+/**
+ * Consumes an access token to authenticate the user.
+ */
 export interface AuthProvider {
+    /**
+     * Authenticates a user.
+     * @param accessToken an access token specific to the `AuthProvider` type
+     * @returns a promise that resolves to either authentication information if
+     * authentication was successful and `null` if not.
+     */
     authenticate(accessToken: string): Promise<AuthInfo | null>;
 }
 
 const googleAuthUrl = 'https://www.googleapis.com/oauth2/v3/userinfo';
 
+/**
+ * User information retrieved through a Google OAuth token.
+ */
 type GoogleUserInfo = {
     sub: string;
     name: string;
@@ -24,7 +39,16 @@ type GoogleUserInfo = {
     hd: string;
 };
 
+/**
+ * Authenticates based on Google OAuth tokens.
+ */
 export class GoogleAuthProvider implements AuthProvider {
+    /**
+     * Authenticates a user with a Google OAuth token.
+     * @param accessToken a Google OAuth token
+     * @returns a promise that resolves to either authentication information if
+     * authentication was successful and `null` if not.
+     */
     async authenticate(accessToken: string) {
         const userInfoRes = await fetch(
             `${googleAuthUrl}?access_token=${accessToken}`
@@ -33,8 +57,8 @@ export class GoogleAuthProvider implements AuthProvider {
             return null;
         }
 
-        // TODO: get rid of cast to any, this is a horrible way to check if the
-        // object has required properties
+        // Check if the response from the Google authenticator API returned an
+        // object with the expected properties.
         const userInfoJson = (await userInfoRes.json()) as {
             name?: string;
             email?: string;
@@ -45,14 +69,26 @@ export class GoogleAuthProvider implements AuthProvider {
             userInfoJson.email == null ||
             userInfoJson.picture == null
         ) {
+            // Fail to authenticate any of the properties are missing to
+            // prevent use of invalid auth tokens.
             return null;
         }
 
+        // The auth token was valid so return the authenticated information.
         return userInfoJson as GoogleUserInfo;
     }
 }
 
+/**
+ * A dummy auth provider for testing. Should not be used outside of tests.
+ */
 export class DummyAuthProvider implements AuthProvider {
+    /**
+     * Authenticates a user if the auth token is `'auth'` and fails if not.
+     * @param accessToken
+     * @returns a promise that resolves to either authentication information if
+     * authentication was successful and `null` if not.
+     */
     async authenticate(accessToken: string) {
         if (accessToken === 'auth') {
             return {
@@ -69,10 +105,18 @@ export class DummyAuthProvider implements AuthProvider {
 
 let provider: AuthProvider = new GoogleAuthProvider();
 
+/**
+ * Change the auth provider used by the server.
+ * @param p the auth provide to use
+ */
 export function setProvider(p: AuthProvider) {
     provider = p;
 }
 
+/**
+ * Get the current auth provider used by the server.
+ * @returns the auth provider
+ */
 export function getProvider() {
     return provider;
 }

@@ -73,6 +73,7 @@
         4
       ],
       "require-jsdoc": "off",
+      "valid-jsdoc": "off",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {

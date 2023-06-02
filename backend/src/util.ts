@@ -1,6 +1,9 @@
 import type {Request, Response} from 'express';
 
-// TODO: This is kind of cringe.
+/**
+ * Wraps a route handler to return an internal server error when an error is
+ * thrown. Uses the error's message as the body of the response.
+ */
 export function respondWithError<Req extends Request, Res extends Response>(
     handler: (req: Req, res: Res) => Promise<void>
 ) {

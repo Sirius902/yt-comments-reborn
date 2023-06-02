@@ -64,7 +64,6 @@ export async function createComment(userId: string, info: CommentInfo) {
     return rows[0] as Comment;
 }
 
-// TODO: Deserialize comment dates.
 export async function getComments(vidId: string, userId: string) {
     const select = `SELECT c.comment_id, c.reply_id, u.user_id, c.comment,
             c.postdate, c.vid_id, u.name, u.picture as profile_picture,
