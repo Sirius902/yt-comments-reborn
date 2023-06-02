@@ -217,8 +217,8 @@ const Comment: React.FC<Props> = ({
                                     className="replyInput"
                                     placeholder="Add a reply..."
                                     ref={replyBox}
+                                    defaultValue={replyText}
                                 >
-                                    {replyText}
                                 </textarea>
                                 <div className="replyInputButtons">
                                     <button
