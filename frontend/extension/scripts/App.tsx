@@ -43,7 +43,6 @@ const App: React.FC<Props> = ({videoId, token}) => {
     const [refetchComments, forceRefetchComments] = useReducer((x) => x + 1, 0);
     const [sortBy, setSortBy] = useState<'Date' | 'Likes'>('Date');
 
-    // TODO: Use this function to send Auth Token to backend
     /**
      * POSTs the user's AuthToken to the backend
      */

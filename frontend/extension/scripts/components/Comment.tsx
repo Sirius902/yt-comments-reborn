@@ -35,21 +35,40 @@ const Comment: React.FC<Props> = ({
     const [expanded, setExpanded] = useState(false);
     const [input, setInput] = useState(false);
 
-    const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    /**
+     * Expands/contracts reply chains/threads on click
+     * @param {React.MouseEvent<HTMLButtonElement>} e
+     */
+    const toggleReplyChain = (e: React.MouseEvent<HTMLButtonElement>) => {
         setExpanded(!expanded);
         e.preventDefault();
     };
 
+    /**
+     * Creates input field for replies
+     * @param {React.MouseEvent<HTMLButtonElement>} e
+     */
     const createReplyInput = (e: React.MouseEvent<HTMLButtonElement>) => {
         setInput(!input);
         e.preventDefault();
     };
 
+    /**
+     * Clears reply input field
+     * @param {React.MouseEvent<HTMLButtonElement>} e
+     */
     const clearReplyInput = (e: React.MouseEvent<HTMLButtonElement>) => {
         setInput(false);
         e.preventDefault();
     };
 
+    /**
+     * POSTs a reply to the backend.
+     * Once the POST request is completed,
+     * refetch() is called to reload the comments.
+     * @param {NewCommentJson} reply a NewCommentJson to send to the backend
+     * @return {Promise<CommentJson | undefined>} response from backend
+     */
     const postReply = async (reply: NewCommentJson) => {
         if (accessToken == null) {
             return;
@@ -71,6 +90,15 @@ const Comment: React.FC<Props> = ({
         }
     };
 
+    /**
+     * Called upon clicking replySubmitBtn
+     * Calls postReply() with the current
+     * replyBox value, reply_id, and vid_id.
+     * Sets replyBox value to '' once postReply()
+     * is completed.
+     * Clears input field after posting a reply.
+     * @param {React.MouseEvent<HTMLButtonElement>} e
+     */
     const addReply = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (replyBox.current !== null && replyBox.current.value !== '') {
             postReply({
@@ -84,6 +112,15 @@ const Comment: React.FC<Props> = ({
         e.preventDefault();
     };
 
+    /**
+     * Upon clicking either like or dislike button
+     * changes like status for current user with a boolean
+     * Upon click either like or dislike, sends a PUT request
+     * the backend and refetches comments/replies
+     * if request is successful
+     * @param {boolean} value
+     * @return {void}
+     */
     const changeLike =
         (value: boolean) => async (_e: React.MouseEvent<HTMLButtonElement>) => {
             if (accessToken == null) {
@@ -106,86 +143,112 @@ const Comment: React.FC<Props> = ({
             }
         };
 
-    const {name, comment: message, postdate} = comment;
+    const {
+        name,
+        comment: message,
+        postdate,
+        profile_picture: profilePicture,
+    } = comment;
 
     /** Generates a CommentJson[] of all replies to a comment */
     const replies = comments.filter(
         (reply) => comment.comment_id === reply.reply_id
     );
     const relativePostDate = moment.utc(postdate).fromNow();
+    const replyText = comment.reply_id != null ? `@${name} ` : ``;
     return (
         <div className="Comment">
-            <div className="Card">
-                <div className="header">
-                    <div className="userName">{name}</div>
-                    <div className="date">{relativePostDate}</div>
-                </div>
-                <div className="msg">{message}</div>
-            </div>
-            <div className="footer">
-                <button className="like" onClick={changeLike(true)}>
-                    {comment.is_liked ? <AiFillLike /> : <AiOutlineLike />}
-                </button>
-                <span>{comment.likes}</span>
-                <button className="dislike" onClick={changeLike(false)}>
-                    {comment.is_disliked ? (
-                        <AiFillDislike />
-                    ) : (
-                        <AiOutlineDislike />
-                    )}
-                </button>
-                <span>{comment.dislikes}</span>
-                <button className="replyBtn" onClick={createReplyInput}>
-                    Reply
-                </button>
-            </div>
-            <div>
-                {input ? (
-                    <form>
-                        <textarea
-                            className="replyInput"
-                            placeholder="Add a reply..."
-                            ref={replyBox}
-                        >
-                            {comment.reply_id != null ? `@${name} ` : null}
-                        </textarea>
-                        <div className="replyInputButtons">
+            <div className="format">
+                {comment.reply_id == null ? (
+                    <div className="pfp">
+                        <img src={profilePicture} />
+                    </div>
+                ) : (
+                    <div className="replyPfp">
+                        <img src={profilePicture} />
+                    </div>
+                )}
+                <div className="body">
+                    <div className="Card">
+                        <div className="header">
+                            <div className="userName">{name}</div>
+                            <div className="date">{relativePostDate}</div>
+                        </div>
+                        <div className="msg">{message}</div>
+                    </div>
+                    <div className="footer">
+                        <button className="like" onClick={changeLike(true)}>
+                            {comment.is_liked ? (
+                                <AiFillLike />
+                            ) : (
+                                <AiOutlineLike />
+                            )}
+                        </button>
+                        <span>{comment.likes}</span>
+                        <button className="dislike" onClick={changeLike(false)}>
+                            {comment.is_disliked ? (
+                                <AiFillDislike />
+                            ) : (
+                                <AiOutlineDislike />
+                            )}
+                        </button>
+                        <span>{comment.dislikes}</span>
+                        <button className="replyBtn" onClick={createReplyInput}>
+                            Reply
+                        </button>
+                    </div>
+                    <div>
+                        {input ? (
+                            <form>
+                                <textarea
+                                    className="replyInput"
+                                    placeholder="Add a reply..."
+                                    ref={replyBox}
+                                >
+                                    {replyText}
+                                </textarea>
+                                <div className="replyInputButtons">
+                                    <button
+                                        className="replyClearBtn"
+                                        onClick={clearReplyInput}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        className="replySubmitBtn"
+                                        onClick={addReply}
+                                    >
+                                        Reply
+                                    </button>
+                                </div>
+                            </form>
+                        ) : null}
+                    </div>
+                    {replies.length > 0 ? (
+                        <div className="replyFeatures">
                             <button
-                                className="replyClearBtn"
-                                onClick={clearReplyInput}
+                                className="replyChain"
+                                onClick={toggleReplyChain}
                             >
-                                Cancel
-                            </button>
-                            <button
-                                className="replySubmitBtn"
-                                onClick={addReply}
-                            >
-                                Reply
+                                {expanded ? (
+                                    <TfiAngleUp className="replyArrow" />
+                                ) : (
+                                    <TfiAngleDown className="replyArrow" />
+                                )}
+                                {replies.length > 1 ? (
+                                    <p className="replyCounter">
+                                        {replies.length} replies
+                                    </p>
+                                ) : (
+                                    <p className="replyCounter">
+                                        {replies.length} reply
+                                    </p>
+                                )}
                             </button>
                         </div>
-                    </form>
-                ) : null}
-            </div>
-            {replies.length > 0 ? (
-                <div className="replyFeatures">
-                    <button className="replyChain" onClick={onClick}>
-                        {expanded ? (
-                            <TfiAngleUp className="replyArrow" />
-                        ) : (
-                            <TfiAngleDown className="replyArrow" />
-                        )}
-                        {replies.length > 1 ? (
-                            <p className="replyCounter">
-                                {replies.length} replies
-                            </p>
-                        ) : (
-                            <p className="replyCounter">
-                                {replies.length} reply
-                            </p>
-                        )}
-                    </button>
+                    ) : null}
                 </div>
-            ) : null}
+            </div>
             <div>
                 <Collapse isOpened={expanded}>
                     <div className="replies">
