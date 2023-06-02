@@ -114,7 +114,7 @@ const Comment: React.FC<Props> = ({
     );
     const relativePostDate = moment.utc(postdate).fromNow();
     return (
-        <div className="Comment">
+        <div className="Comment" aria-label="comment">
             <div className="Card">
                 <div className="header">
                     <div className="userName">{name}</div>
@@ -123,19 +123,31 @@ const Comment: React.FC<Props> = ({
                 <div className="msg">{message}</div>
             </div>
             <div className="footer">
-                <button className="like" aria-label="like" onClick={changeLike(true)}>
+                <button
+                    className="like"
+                    aria-label="like"
+                    onClick={changeLike(true)}
+                >
                     {comment.is_liked ? <AiFillLike /> : <AiOutlineLike />}
                 </button>
-                <span>{comment.likes}</span>
-                <button className="dislike" aria-label="dislike" onClick={changeLike(false)}>
+                <span aria-label="likes">{comment.likes}</span>
+                <button
+                    className="dislike"
+                    aria-label="dislike"
+                    onClick={changeLike(false)}
+                >
                     {comment.is_disliked ? (
                         <AiFillDislike />
                     ) : (
                         <AiOutlineDislike />
                     )}
                 </button>
-                <span>{comment.dislikes}</span>
-                <button className="replyBtn" aria-label="reply" onClick={createReplyInput}>
+                <span aria-label="dislikes">{comment.dislikes}</span>
+                <button
+                    className="replyBtn"
+                    aria-label="reply"
+                    onClick={createReplyInput}
+                >
                     Reply
                 </button>
             </div>

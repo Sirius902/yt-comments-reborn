@@ -208,10 +208,18 @@ const App: React.FC<Props> = ({videoId, token}) => {
                         ref={commentBox}
                     ></textarea>
                     <div className="btn">
-                        <button id="clearBtn" aria-label="cancel-comment" onClick={clearInput}>
+                        <button
+                            id="clearBtn"
+                            aria-label="cancel-comment"
+                            onClick={clearInput}
+                        >
                             Cancel
                         </button>
-                        <button id="submitBtn" aria-label="post-comment" onClick={addComment}>
+                        <button
+                            id="submitBtn"
+                            aria-label="post-comment"
+                            onClick={addComment}
+                        >
                             Comment
                         </button>
                     </div>
