@@ -218,8 +218,7 @@ const Comment: React.FC<Props> = ({
                                     placeholder="Add a reply..."
                                     ref={replyBox}
                                     defaultValue={replyText}
-                                >
-                                </textarea>
+                                ></textarea>
                                 <div className="replyInputButtons">
                                     <button
                                         aria-label="cancel-reply"
