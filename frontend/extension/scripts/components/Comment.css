@@ -1,11 +1,21 @@
 .Comment {
     font-size: 1.4rem;
-    width: 800px;
-    margin-top: 2rem;
+    width: auto;
+    margin-top: 1.25rem;
+}
+
+.Comment .format {
+    display: flex;
+    flex-direction: row;
+}
+
+.Comment .body {
+    display: flex;
+    flex-direction: column;
 }
 
 .Comment .Card {
-    width: 100%;
+    width: auto;
     display: grid;
     grid-template-columns: auto;
     margin: 0.5rem;
@@ -15,11 +25,34 @@
 .Comment .msg {
     margin-top: 5px;
     text-align: left;
+    width: auto;
 }
 
 .Comment .header {
     display: flex;
     align-items: center;
+}
+
+.Comment .pfp {
+    float: left;
+}
+
+.Comment .pfp img {
+    margin-top: 5px;
+    border-radius: 50%;
+    width: auto;
+    height: 4.5rem;
+}
+
+.Comment .replyPfp {
+    float: left;
+}
+
+.Comment .replyPfp img {
+    margin-top: 5px;
+    border-radius: 50%;
+    width: auto;
+    height: 2.75rem;
 }
 
 .Comment .userName {
@@ -142,7 +175,7 @@
 }
 
 .Comment .replies {
-    margin-left: 2em;
+    margin-left: 3.5em;
 }
 
 .ReactCollapse--collapse {
