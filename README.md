@@ -1,5 +1,9 @@
 # YouTube Comments Reborn
 
+## Trello Board
+
+The Trello Board is [here](https://trello.com/b/a6EqNP3j/version-10).
+
 ## Building
 
 * Install [Node.js](https://nodejs.org/) Current, which is 20.2.0 as of the current
