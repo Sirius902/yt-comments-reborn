@@ -7,10 +7,12 @@ commit.
 * Clone this repository using [Git](https://git-scm.com/) or download the
 [source code](https://github.com/Sirius902/yt-comments-reborn/archive/refs/heads/main.zip).
 * Inside the root directory of the repository run the following commands.
+
 ```sh
 npm install
 npm run build
 ```
+
 * The built backend distribution will be in `backend/build` and the frontend
 distribution will be `frontend/extension`.
 
@@ -18,12 +20,15 @@ distribution will be `frontend/extension`.
 
 * Install [Docker](https://www.docker.com/).
 * After following the build instructions, start the database Docker container with the following commands.
+  
 ```sh
 cd backend
 docker-compose up -d
 cd ..
 ```
+
 * Then, run all tests with the following command.
+  
 ```sh
 npm run test
 ```
@@ -35,16 +40,20 @@ with `sudo`.
 
 * Follow the build instructions.
 * Run the following commands to start the database Docker container. \[1\]
+
 ```sh
 cd backend
 docker-compose up -d
 cd ..
 ```
+
 * Start the backend server with the following commands in a new terminal.
+
 ```sh
 cd backend
 npm run start
 ```
+
 * Download [Google Chrome](https://www.google.com/chrome/).
 * Enable Developer mode for extensions at `chrome://extensions/` in Google Chrome.
 * Install the `frontend/extension` directory as a Chrome Extension and enable it.
@@ -60,14 +69,17 @@ A list of YouTube videos with comments, and some without, entered into the testi
 following.
 
 ### Comments
-* https://www.youtube.com/watch?v=t-Nw9oz-U6M
-* https://www.youtube.com/watch?v=YqLXRLCb3is
-* https://www.youtube.com/watch?v=astISOttCQ0
+
+* <https://www.youtube.com/watch?v=t-Nw9oz-U6M>
+* <https://www.youtube.com/watch?v=YqLXRLCb3is>
+* <https://www.youtube.com/watch?v=astISOttCQ0>
 
 ### No Comments
-* https://www.youtube.com/watch?v=qe7imy8dx8Q
+
+* <https://www.youtube.com/watch?v=qe7imy8dx8Q>
 
 ### **Note**
+
 * \[1\] On Unix operating systems the `docker-compose` command may need to be run
 with `sudo`.
 * \[2\] Due to the fact that Google requires a paid developer account in order to
