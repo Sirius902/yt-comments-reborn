@@ -8,6 +8,10 @@ import {getProvider} from '../authProvider';
 
 // Store the accessToken in the secrets const
 const secrets = (() => {
+    if (process.env.SECRETS != null) {
+        return JSON.parse(process.env.SECRETS) as {accessToken: string};
+    }
+
     const buffer = fss.readFileSync('./secrets.json', 'utf-8');
     return JSON.parse(buffer) as {accessToken: string};
 })();
